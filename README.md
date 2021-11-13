@@ -28,7 +28,7 @@ Descripción de carlos
 ### [Camilo Martinez](https://github.com/camilomartinezfo)
 
 <p align="justify">
-Estudiante de Ingeniería Forestal de 8vo semestre en la Universidad Nacional de Colombia en Medellín. Oriundo de Ibagué, sus intereses se centran en el desarrollo de habilidades en programación y métodos cuantitativos en la modelación estadística de problemas del área forestal. 
+Estudiante de Ingeniería Forestal de 9no semestre en la Universidad Nacional de Colombia en Medellín. Oriundo de Ibagué, sus intereses se centran en el desarrollo de habilidades en programación y métodos cuantitativos en la modelación estadística de problemas del área forestal. 
 </p>
 
 ### [Juan Mendoza](https://github.com/jsmendozap)
