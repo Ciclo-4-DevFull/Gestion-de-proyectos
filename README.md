@@ -22,7 +22,7 @@ Tiene estudios iniciados de física pura en la Universidad de Antioquia, trabaja
 ### [Carlos Martinez](https://github.com/Carlos06mtz)
 
 <p align="justify">
-Descripción de carlos
+Estudiante de ingeniería en agroecología de 5to semestre en la Universidad del tolima, tecnologo en control ambiental, sus intereses se fundamentan en integrar el campo colombiano con la tecnología. 
 </p>
 
 ### [Camilo Martinez](https://github.com/camilomartinezfo)
