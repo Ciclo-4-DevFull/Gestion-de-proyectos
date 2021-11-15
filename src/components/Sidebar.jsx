@@ -4,13 +4,13 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import foto from 'media/profile.ico'
 
 const Sidebar = () => {
+
     return (
-        <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column',
-         width: '35vh', height: '90vh', padding: '2px 1vh', margin: '2px', borderRight: '1px solid black',
-         backgroundColor: '#292A2F'}}>
-            <Accordion style={{marginBottom: '0.3vh'}}>
+        <div className='flex flex-col justify-center w-1/4 bg-gray-800 py-0.5 px-3'>
+            <Accordion className='my-0.5'>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -19,7 +19,7 @@ const Sidebar = () => {
                         Gestión de usuarios
                     </Typography>
                 </AccordionSummary>
-                <AccordionDetails style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
+                <AccordionDetails className='flex flex-col items-start'>
                     <Typography>Actualizar información</Typography>
                     <Typography>Solicitudes</Typography>
                 </AccordionDetails>            
@@ -33,7 +33,7 @@ const Sidebar = () => {
                         Gestión de proyectos
                     </Typography>
                 </AccordionSummary>
-                <AccordionDetails style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
+                <AccordionDetails className='flex flex-col items-start'>
                     <Typography>Registrar proyecto</Typography>
                     <Typography>Mis proyectos</Typography>
                     <Typography>Buscar proyecto</Typography>

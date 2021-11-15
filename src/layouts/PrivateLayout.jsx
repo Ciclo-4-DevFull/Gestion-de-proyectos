@@ -7,9 +7,9 @@ const PrivateLayout = ({ children }) => {
     return (
         <div>
             <Header/>
-                <div style={{display: 'flex'}}>
+                <div className='flex w-screen' style={{height: '90vh'}}>
                     <Sidebar/>   
-                    {children}
+                    <main className='flex w-full'>{children}</main>
                 </div>
             <Footer/>
         </div>
