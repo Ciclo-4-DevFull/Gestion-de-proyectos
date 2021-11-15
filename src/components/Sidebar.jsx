@@ -21,14 +21,14 @@ const Sidebar = () => {
 
 const Opciones = ({barra, setBarra}) => {
     return(
-        <div className='flex flex-col w-1/4 bg-gray-800 py-0.5 px-3'>
+        <div className='flex flex-col w-1/4 bg-gray-800 py-0.5 px-3 rounded-r'>
             <button className='my-5' onClick={()=>{setBarra(!barra)}}>
                 <img src={menu} alt='' className='object-none'/>
             </button>
-            <div className='flex justify-center my-5'>
-                <img src={foto} alt='Foto' className='h-14 w-14 mt-5'/>
+            <div className='flex justify-center my-4'>
+                <img src={foto} alt='Foto' className='h-14 w-14 mt-3'/>
             </div>
-            <label className='mb-8 text-gray-50'>Bienvenido/a</label>
+            <label className='mb-4 text-gray-50'>Bienvenido/a</label>
             <Accordion className='my-0.5'>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -58,14 +58,14 @@ const Opciones = ({barra, setBarra}) => {
                     <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Buscar proyecto</Typography>
                 </AccordionDetails>            
             </Accordion>
-            <button className='mt-14 text-gray-50'>Cerrar sesión</button>
+            <button className='mt-12 text-gray-50'>Cerrar sesión</button>
         </div>
     )
 }
 
 const Reducido = ({barra, setBarra})  => {
     return(
-        <div className='flex flex-col w-14 bg-gray-800 py-0.5 px-3' onClick={()=>{setBarra(!barra)}}>
+        <div className='flex flex-col w-14 bg-gray-800 py-0.5 px-3 rounded-r' onClick={()=>{setBarra(!barra)}}>
         <button className='my-5'>
             <img src={menu} alt='' className='object-none'/>
         </button>
