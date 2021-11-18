@@ -6,12 +6,12 @@ import Sidebar from 'components/Sidebar'
 const PrivateLayout = ({ children }) => {
     return (
         <div>
-            <Header/>
-                <div className='flex' style={{minHeight: '82vh', width: '95%'}}>
-                    <Sidebar/>   
-                    <main className='flex w-full ml-5'>{children}</main>
-                </div>
-            <Footer/>
+            <Header />
+            <div className='flex' style={{ minHeight: '80vh', width: '99%' }}>
+                <Sidebar />
+                <main className='flex w-full justify-center'>{children}</main>
+            </div>
+            <Footer />
         </div>
     )
 }

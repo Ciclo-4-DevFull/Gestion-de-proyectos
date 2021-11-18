@@ -12,23 +12,23 @@ const Sidebar = () => {
 
     const [barra, setBarra] = useState(true)
 
-    if(barra){
-        return(<Opciones barra={barra} setBarra={setBarra}/>)
-    }else{
-        return(<Reducido barra={barra} setBarra={setBarra}/>)
+    if (barra) {
+        return (<Opciones barra={barra} setBarra={setBarra} />)
+    } else {
+        return (<Reducido barra={barra} setBarra={setBarra} />)
     }
 }
 
-const Opciones = ({barra, setBarra}) => {
-    return(
+const Opciones = ({ barra, setBarra }) => {
+    return (
         <div className='flex flex-col w-1/4 bg-gray-800 py-0.5 px-3 rounded-r'>
-            <button className='my-5' onClick={()=>{setBarra(!barra)}}>
-                <img src={menu} alt='' className='object-none'/>
+            <button className='my-3' onClick={() => { setBarra(!barra) }}>
+                <img src={menu} alt='' className='object-none' />
             </button>
             <div className='flex justify-center my-4'>
-                <img src={foto} alt='Foto' className='h-14 w-14 mt-3'/>
+                <img src={foto} alt='Foto' className='h-14 w-14 mt-0' />
             </div>
-            <label className='mb-4 text-gray-50'>Bienvenido/a</label>
+            <span className='flex justify-center mb-7 text-gray-50'>Bienvenido/a</span>
             <Accordion className='my-0.5'>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -41,7 +41,7 @@ const Opciones = ({barra, setBarra}) => {
                 <AccordionDetails className='flex flex-col items-start'>
                     <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Actualizar información</Typography>
                     <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Solicitudes</Typography>
-                </AccordionDetails>            
+                </AccordionDetails>
             </Accordion>
             <Accordion>
                 <AccordionSummary
@@ -49,28 +49,28 @@ const Opciones = ({barra, setBarra}) => {
                     aria-controls="panel1a-content"
                     id="panel1a-header">
                     <Typography>
-                    <div className='font-semibold'>Gestión de proyectos</div>
+                        <div className='font-semibold'>Gestión de proyectos</div>
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails className='flex flex-col items-start'>
                     <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Registrar proyecto</Typography>
-                    <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Mis proyectos</Typography> 
+                    <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Mis proyectos</Typography>
                     <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Buscar proyecto</Typography>
-                </AccordionDetails>            
+                </AccordionDetails>
             </Accordion>
-            <button className='mt-12 text-gray-50'>Cerrar sesión</button>
+            <button className='mt-16 text-gray-50'>Cerrar sesión</button>
         </div>
     )
 }
 
-const Reducido = ({barra, setBarra})  => {
-    return(
-        <div className='flex flex-col w-14 bg-gray-800 py-0.5 px-3 rounded-r' onClick={()=>{setBarra(!barra)}}>
-        <button className='my-5'>
-            <img src={menu} alt='' className='object-none'/>
-        </button>
-    </div>
+const Reducido = ({ barra, setBarra }) => {
+    return (
+        <div className='flex flex-col w-14 bg-gray-800 py-0.5 px-3 rounded-r' onClick={() => { setBarra(!barra) }}>
+            <button className='my-3'>
+                <img src={menu} alt='' className='object-none' />
+            </button>
+        </div>
     )
- }
+}
 
 export default Sidebar

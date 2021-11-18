@@ -1,0 +1,16 @@
+[
+    {
+        "nombre": "Juan Sebastián",
+        "apellido": "Mendoza Páez",
+        "identificacion": "1014263451",
+        "email": "jsmendozap@gmail.com",
+        "rol": "administrador"
+    },
+    {
+        "nombre": "Dilia Rosa",
+        "apellido": "Daza Araujo",
+        "identificacion": "1065811746",
+        "email": "diliadaza@gmail.com",
+        "rol": "estudiante"
+    }
+]

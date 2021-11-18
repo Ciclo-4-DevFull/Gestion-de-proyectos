@@ -1,11 +1,13 @@
-import './App.css';
 import PrivateLayout from 'layouts/PrivateLayout';
+import Solicitudes from 'pages/Solicitudes';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <div className="App">
       <PrivateLayout>
-        Esto es un texto de prueba
+        <Solicitudes />
       </PrivateLayout>
     </div>
   );
