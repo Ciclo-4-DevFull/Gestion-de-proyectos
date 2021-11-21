@@ -6,7 +6,7 @@ const PublicLayout = ({ children }) => {
     return (
         <div>
             <Header/>
-            <main className='flex w-full justify-center' style={{minHeight: 'calc(100vh - 135px)'}}>{children}</main>
+            <main className='flex w-full justify-center' style={{minHeight: 'calc(100vh - 220px)'}}>{children}</main>
             <Footer/>
         </div>
     )
