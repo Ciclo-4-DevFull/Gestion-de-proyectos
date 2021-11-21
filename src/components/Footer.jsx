@@ -3,7 +3,7 @@ import logo from 'media/github.png'
 
 const Footer = () => {
     return (
-        <footer className='flex justify-center pt-3 pb-2 px-5 bg-gray-50'>
+        <footer className='flex justify-center pt-3 pb-2 px-5 bg-gray-50' style={{position:"relative", width: "100%", bottom: "0%"}}>
             <img src={logo} alt='logo' className='h-6 px-2'/>
             <span className='font-bold'>DevFull 2.0</span>
         </footer>

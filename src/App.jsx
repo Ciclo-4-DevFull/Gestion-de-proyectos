@@ -16,7 +16,6 @@ import Index from 'pages/Index';
 
 function App() {
   return (
-    <div className="App">
       <Router>
         <Switch>
           <Route path={['/bienvenida', '/registro-proyecto', '/mis-proyectos', '/detalle-proyecto', '/solicitudes','/actualizar-info','/busca-proyecto']}>
@@ -37,7 +36,7 @@ function App() {
                 <Route path='/solicitudes'>
                   <Solicitudes/>
                 </Route>
-                <Route path='actualizar-info'>
+                <Route path='/actualizar-info'>
                   <ActualizarInfo/>
                 </Route>
                 <Route path='/busca-proyecto'>
@@ -63,7 +62,6 @@ function App() {
           </Route>
         </Switch>
       </Router>
-    </div>
   );
 }
 
