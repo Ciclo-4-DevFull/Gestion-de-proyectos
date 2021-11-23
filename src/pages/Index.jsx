@@ -1,9 +1,13 @@
 import React from 'react'
+import project from 'media/projectmanagement.jpg'
+
+// Alinear a la izquierda y que se corran solas 3 imágenes, Descripción al lado izquierdo con el botón
+// de inicio de sesión 
 
 const Index = () => {
     return (
-        <div class="flex xl:w-2/5">
-            <h1 class="md:text-4xl text-blue-800 font-bold text-center md:text-left pt-40">Bienvenido al sistema de gestión de proyectos</h1>
+        <div>
+            <img src={project} alt='project' width='500px' style={{display:"block", margin:"auto", paddingTop:"50px"}}/>
         </div>
 
     )
