@@ -58,7 +58,7 @@ const Opciones = ({ barra, setBarra }) => {
                     <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Buscar proyecto</Typography>
                 </AccordionDetails>
             </Accordion>
-            <button className='mt-16 text-gray-50'>Cerrar sesión</button>
+            <button className='mt-8 text-gray-50'>Cerrar sesión</button>
         </div>
     )
 }

@@ -6,7 +6,7 @@ const PublicLayout = ({ children }) => {
     return (
         <div>
             <Header/>
-            <main style={{minHeight: 'calc(100vh - 220px)'}}>{children}</main>
+            <main style={{minHeight: '60vh'}}>{children}</main>
             <Footer/>
         </div>
     )

@@ -4,7 +4,7 @@ import project from 'media/projectmanagement.jpg'
 const Index = () => {
 
     return (
-        <div style={{width:"1330px",height:"430px",overflow:"hidden",margin:"10px",position:"relative"}}>
+        <div style={{height:"66vh"}} className='overflow-hidden relative mx-1'>
             <div >
                 <img src={project} alt='imgFondo' style={{position:"absolute",left:"-100%",right:"-100%",top:"-100%",bottom:"-100%",margin:"auto",minHeight:"100%",minWidth:"100%"}}/>
             </div>
