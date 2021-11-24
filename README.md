@@ -2,16 +2,16 @@
 
 ## Descripción
 
-En el manejaremos base de datos no relacionada (NoSQL) mediante MongoDB, para importar, manipular datos y ordenar las consultas. Utilizaremos el modelo DevOps, la contenerización de aplicaciones mediante la herramienta Docker, que permite despliegues más rápidos y sin fricciones.  Adicionalmente, este curso te permitirá abordar las habilidades de programación mediante la consulta de datos con la herramienta GraphQL integrada con NodeJs, y explorar los microservicios con marcos de trabajo, por ejemplo, Spring Boot y NetFlix OSS, para poder elaborar un proyecto final
+En el manejaremos base de datos no relacionada (NoSQL) mediante MongoDB, para importar, manipular datos y ordenar las consultas. Utilizaremos el modelo DevOps, la contenerización de aplicaciones mediante la herramienta Docker, que permite despliegues más rápidos y sin fricciones. Adicionalmente, este curso te permitirá abordar las habilidades de programación mediante la consulta de datos con la herramienta GraphQL integrada con NodeJs, y explorar los microservicios con marcos de trabajo, por ejemplo, Spring Boot y NetFlix OSS, para poder elaborar un proyecto final
 
-##  Integrantes
+## Integrantes
 
 - [John Gonzalez](#john-gonzalez)
-- [Carlos Martinez](#carlos-martinez) 
+- [Carlos Martinez](#carlos-martinez)
 - [Camilo Martinez](#camilo-martinez)
 - [Juan Mendoza](#juan-mendoza)
 
-## Presentación  
+## Presentación
 
 ### [John Gonzalez](https://github.com/Jchoco)
 
@@ -37,5 +37,6 @@ Estudiante de Ingeniería Forestal de 9no semestre en la Universidad Nacional de
 Estudiante de Ingeniería Forestal en la Universidad Nacional de Colombia sede Medellín, reside actualmente en la ciudad de Ibagué y sus intereses se centran en fortalecer sus conocimientos en programación y la integración de estos con el campo forestal. 
 </p>
 
-***
+---
+
 <p align = "center"> <img src="Devfull.png" style="height: 60px" /> </p>
