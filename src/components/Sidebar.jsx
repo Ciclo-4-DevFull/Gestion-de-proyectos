@@ -7,6 +7,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import foto from 'media/profile.png'
 import menu from 'media/menu.ico'
 import { useState } from 'react';
+import {Link} from 'react-router-dom'
 
 const Sidebar = () => {
 
@@ -58,7 +59,9 @@ const Opciones = ({ barra, setBarra }) => {
                     <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Buscar proyecto</Typography>
                 </AccordionDetails>
             </Accordion>
-            <button className='mt-8 text-gray-50'>Cerrar sesión</button>
+            <Link to='/'>
+                <button className='mt-8 text-gray-50'>Cerrar sesión</button>
+            </Link>
         </div>
     )
 }
