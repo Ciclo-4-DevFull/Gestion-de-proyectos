@@ -4,38 +4,76 @@ import check from 'media/check.png'
 import denied from 'media/denied.png'
 import Tooltip from '@mui/material/Tooltip';
 import { ToastContainer, toast } from 'react-toastify';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { GET_USUARIOS } from 'graphql/users/queries'
 import ReactLoading from 'react-loading';
+import { EDIT_USUARIO } from 'graphql/users/mutations';
+import { ELIMINAR_USUARIO } from 'graphql/users/mutations';
 
 const Solicitudes = () => {
 
     const [usuarios, setUsuarios] = useState([])
-    const {data, error, loading } = useQuery(GET_USUARIOS)
+    const { data: queryData, error: queryError, loading: queryLoading } = useQuery(GET_USUARIOS)
+    const [editarUsuario] = useMutation(EDIT_USUARIO)
+    const [eliminarUsuario] = useMutation(ELIMINAR_USUARIO);
+
+    const aceptar = (usuario) => {
+        editarUsuario({
+            variables: {
+                _id: usuario._id,
+                nombre: usuario.nombre,
+                apellido: usuario.apellido,
+                identificacion: usuario.identificacion,
+                correo: usuario.correo,
+                rol: usuario.rol,
+                estado: "AUTORIZADO"
+            }
+        })
+        toast.success('Operación realizada con éxito')
+    }
+
+    const rechazar = (usuario) => {
+        editarUsuario({
+            variables: {
+                _id: usuario._id,
+                nombre: usuario.nombre,
+                apellido: usuario.apellido,
+                identificacion: usuario.identificacion,
+                correo: usuario.correo,
+                rol: usuario.rol,
+                estado: "NO_AUTORIZADO"
+            }
+        })
+
+        eliminarUsuario({
+            variables: { _id: usuario._id }
+        })
+        toast.success('Operación realiazada con éxito')
+    }
 
     const pendientes = (datos) => {
-         const usuarios = []
-         datos.forEach(usuario => {
-             usuario.estado === 'PENDIENTE' && usuarios.push(usuario)
-         })
+        const usuarios = []
+        datos.forEach(usuario => {
+            usuario.estado === 'PENDIENTE' && usuarios.push(usuario)
+        })
         return usuarios
     }
-     
+
     useEffect(() => {
-        if(typeof(data) === 'object'){
-            const res = pendientes(data.Usuarios)
+        if (typeof (queryData) === 'object') {
+            const res = pendientes(queryData.Usuarios)
             setUsuarios(res)
-        
+            console.log(queryData)
         }
-        error && toast.error('error consultando los usuarios')
-    }, [data, setUsuarios, error])
-    
-    if (loading) return <ReactLoading type={'spokes'} color={'#95CCBB'} heigth={'10%'} width={'10%'} className='py-40'/>
+        queryError && toast.error('error consultando los usuarios')
+    }, [queryData, setUsuarios, queryError])
+
+    if (queryLoading) return <ReactLoading type={'spokes'} color={'#95CCBB'} heigth={'10%'} width={'10%'} className='py-40' />
 
     return (
         <div style={{ width: '85%' }}>
             <h4 className='mt-10'>Solicitudes pendientes</h4>
-            {usuarios ?
+            {usuarios.some(e => e.estado === 'PENDIENTE') ?
                 <Table hover borderless className='my-10'>
                     <thead className='bg-blue-100'>
                         <tr>
@@ -47,7 +85,7 @@ const Solicitudes = () => {
                             <th>Respuesta</th>
                         </tr>
                     </thead>
-                    <tbody> 
+                    <tbody>
                         {usuarios.map((usuario) => {
                             return (
                                 <tr key={usuario._id}>
@@ -62,12 +100,12 @@ const Solicitudes = () => {
                                     }</td>
                                     <td className='flex flex-row justify-around'>
                                         <Tooltip title="Aprobar">
-                                            <button onClick={() => { console.log(usuario); toast.success('Operación realizada con éxito') }}>
+                                            <button onClick={() => { aceptar(usuario) }}>
                                                 <img src={check} alt='' className='h-6' />
                                             </button>
                                         </Tooltip>
                                         <Tooltip title="Rechazar">
-                                            <button onClick={() => { toast.success('Operación realizada con éxito') }}>
+                                            <button onClick={() => { rechazar(usuario) }}>
                                                 <img src={denied} alt='' className='h-5 pt-0' />
                                             </button>
                                         </Tooltip>
@@ -77,8 +115,8 @@ const Solicitudes = () => {
                         })}
                     </tbody>
                 </Table>
-            :
-            <div>No hay solicitudes pendientes</div>}
+                :
+                <div className='flex justify-center py-36 font-bold'>No hay solicitudes pendientes</div>}
             <ToastContainer />
         </div>
     )
