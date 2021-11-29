@@ -1,5 +1,6 @@
 import {BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import PrivateLayout from 'layouts/PrivateLayout';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import Inicio from 'pages/Inicio';
@@ -14,9 +15,14 @@ import Login from 'pages/Login';
 import Registro from 'pages/Registro';
 import Index from 'pages/Index';
 
+const client = new ApolloClient({
+  uri: 'https://servidor-gestion-proyectos.herokuapp.com/graphql',
+  cache: new InMemoryCache()
+})
 
 function App() {
   return (
+    <ApolloProvider client={client}>
       <Router>
         <Switch>
           <Route path={['/bienvenida', '/registro-proyecto', '/mis-proyectos', '/detalle-proyecto', '/solicitudes','/actualizar-info','/busca-proyecto']}>
@@ -63,6 +69,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
+    </ApolloProvider>
   );
 }
 
