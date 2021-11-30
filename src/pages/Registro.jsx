@@ -4,10 +4,12 @@ import project from 'media/projectmanagement.jpg'
 import { useMutation } from '@apollo/client'
 import { REGISTRO } from 'graphql/auth/mutations'
 import { useHistory } from 'react-router-dom'
+import { useAuth } from 'context/AuthContext'
 
 const Registro = () => {
 
     const [registro, { data, loading, error }] = useMutation(REGISTRO);
+    const { setToken } = useAuth();
     const history = useHistory();
     const form = useRef();
 
@@ -25,14 +27,13 @@ const Registro = () => {
     }
 
     useEffect(() => {
-        console.log(data)
         if (data) {
             if (data.registro.token) {
-                localStorage.setItem('token', data.registro.token);
+                setToken(data.registro.token);
                 history.push('/bienvenida')
             }
         }
-    }, [data, history])
+    }, [data, history, setToken])
 
     return (
         <div className='bg-cover' style={{ backgroundImage: `url(${project})` }}>
