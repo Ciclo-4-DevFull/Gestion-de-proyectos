@@ -8,10 +8,11 @@ import foto from 'media/profile.png'
 import menu from 'media/menu.ico'
 import { useState } from 'react';
 import { Link } from 'react-router-dom'
+import { useAuth } from 'context/AuthContext';
 
 const Sidebar = () => {
 
-    const [barra, setBarra] = useState(true)
+    const [barra, setBarra] = useState(true);
 
     if (barra) {
         return (<Opciones barra={barra} setBarra={setBarra} />)
@@ -21,6 +22,9 @@ const Sidebar = () => {
 }
 
 const Opciones = ({ barra, setBarra }) => {
+
+    const { setToken } = useAuth();
+
     return (
         <div className='flex flex-col w-1/4 bg-gray-800 py-0.5 px-3 rounded-r'>
             <button className='my-3' onClick={() => { setBarra(!barra) }}>
@@ -60,7 +64,7 @@ const Opciones = ({ barra, setBarra }) => {
                 </AccordionDetails>
             </Accordion>
             <Link to='/' className='flex justify-center no-underline'>
-                <button className='mt-8 text-gray-50'>Cerrar sesión</button>
+                <button className='mt-8 text-gray-50' onClick={() => { setToken(null) }}>Cerrar sesión</button>
             </Link>
         </div>
     )

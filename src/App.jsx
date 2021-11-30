@@ -16,7 +16,9 @@ import Login from 'pages/Login';
 import Registro from 'pages/Registro';
 import Index from 'pages/Index';
 import { AuthContext } from 'context/AuthContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import jwtDecode from 'jwt-decode';
+import { UserContext } from 'context/UserContext';
 
 //https://servidor-gestion-proyectos.herokuapp.com/graphql
 
@@ -42,63 +44,85 @@ const client = new ApolloClient({
 function App() {
 
   const [authToken, setAuthToken] = useState('');
+  const [userData, setUserData] = useState({});
 
   const setToken = (token) => {
     setAuthToken(token);
     if (token) {
       localStorage.setItem('token', JSON.stringify(token))
+    } else {
+      localStorage.removeItem('token')
     }
   }
+
+  useEffect(() => {
+
+    if (authToken) {
+      const decoded = jwtDecode(authToken);
+      setUserData({
+        _id: decoded._id,
+        nombre: decoded.nombre,
+        apellido: decoded.apellido,
+        identificacion: decoded.identificacion,
+        correo: decoded.correo,
+        rol: decoded.rol,
+        estado: decoded.estado
+      });
+      console.log(userData)
+    };
+  }, [authToken])
 
   return (
     <ApolloProvider client={client}>
       <AuthContext.Provider value={{ authToken, setAuthToken, setToken }}>
-        <Router>
-          <Switch>
-            <Route path={['/bienvenida', '/registro-proyecto', '/mis-proyectos', '/detalle-proyecto', '/solicitudes', '/actualizar-info', '/busca-proyecto']}>
-              <PrivateLayout>
-                <Switch>
-                  <Route path='/bienvenida'>
-                    <Inicio />
-                  </Route>
-                  <Route path='/registro-proyecto'>
-                    <RegistroProyecto />
-                  </Route>
-                  <Route path='/mis-proyectos'>
-                    <MisProyectos />
-                  </Route>
-                  <Route path='/detalle-proyecto'>
-                    <Detalle />
-                  </Route>
-                  <Route path='/solicitudes'>
-                    <Solicitudes />
-                  </Route>
-                  <Route path='/actualizar-info'>
-                    <ActualizarInfo />
-                  </Route>
-                  <Route path='/busca-proyecto'>
-                    <BuscaProyectos />
-                  </Route>
-                </Switch>
-              </PrivateLayout>
-            </Route>
-            <Route path={['/login', 'registro', '/']}>
-              <PublicLayout>
-                <Switch>
-                  <Route path='/login'>
-                    <Login />
-                  </Route>
-                  <Route path='/registro'>
-                    <Registro />
-                  </Route>
-                  <Route path='/'>
-                    <Index />
-                  </Route>
-                </Switch>
-              </PublicLayout>
-            </Route>
-          </Switch>
-        </Router>
+        <UserContext.Provider value={{ userData, setUserData }}>
+          <Router>
+            <Switch>
+              <Route path={['/bienvenida', '/registro-proyecto', '/mis-proyectos', '/detalle-proyecto', '/solicitudes', '/actualizar-info', '/busca-proyecto']}>
+                <PrivateLayout>
+                  <Switch>
+                    <Route path='/bienvenida'>
+                      <Inicio />
+                    </Route>
+                    <Route path='/registro-proyecto'>
+                      <RegistroProyecto />
+                    </Route>
+                    <Route path='/mis-proyectos'>
+                      <MisProyectos />
+                    </Route>
+                    <Route path='/detalle-proyecto'>
+                      <Detalle />
+                    </Route>
+                    <Route path='/solicitudes'>
+                      <Solicitudes />
+                    </Route>
+                    <Route path='/actualizar-info'>
+                      <ActualizarInfo />
+                    </Route>
+                    <Route path='/busca-proyecto'>
+                      <BuscaProyectos />
+                    </Route>
+                  </Switch>
+                </PrivateLayout>
+              </Route>
+              <Route path={['/login', 'registro', '/']}>
+                <PublicLayout>
+                  <Switch>
+                    <Route path='/login'>
+                      <Login />
+                    </Route>
+                    <Route path='/registro'>
+                      <Registro />
+                    </Route>
+                    <Route path='/'>
+                      <Index />
+                    </Route>
+                  </Switch>
+                </PublicLayout>
+              </Route>
+            </Switch>
+          </Router>
+        </UserContext.Provider>
       </AuthContext.Provider>
     </ApolloProvider>
   );
