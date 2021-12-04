@@ -14,7 +14,9 @@ const ActualizarInfo = () => {
                     <Input name='password' label='Contraseña' type='password' />
                     <Input name='password2' label='Confirmar contraseña' type='password' />
                 </div>
-                <button className='btn btn-primary p-1 w-20 bg-blue-400 mt-4 ml-32'>Guardar</button>
+                <div className='flex flex-col items-end mr-36'>
+                    <button type='submit' className='btn btn-primary p-2 w-36 bg-blue-400 mt-4'>Guardar cambios</button>
+                </div>
             </form>
         </div>
     )
