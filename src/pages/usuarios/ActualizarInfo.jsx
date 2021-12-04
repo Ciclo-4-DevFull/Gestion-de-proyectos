@@ -12,7 +12,7 @@ const ActualizarInfo = () => {
                     <Input name='identificacion' label='Identificación' type='number' />
                     <Input name='correo' label='Correo electrónico' type='email' />
                     <Input name='password' label='Contraseña' type='password' />
-                    <Input name='password' label='Confirmar contraseña' type='password' />
+                    <Input name='password2' label='Confirmar contraseña' type='password' />
                 </div>
                 <button className='btn btn-primary p-1 w-20 bg-blue-400 mt-4 ml-32'>Guardar</button>
             </form>
