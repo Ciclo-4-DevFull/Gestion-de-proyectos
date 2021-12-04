@@ -12,13 +12,13 @@ import { PrivateComponent } from 'components/PrivateComponent'
 const PrivateLayout = ({ children }) => {
 
     const { authToken, setToken } = useAuth();
-    const [validateToken, { data, loading, error }] = useMutation(REFRESH_TOKEN);
+    const [validateToken, { data, loading }] = useMutation(REFRESH_TOKEN);
     const [loadingAuth, setLoadingAuth] = useState(true)
     const history = useHistory();
 
     useEffect(() => {
         validateToken();
-    }, [])
+    }, [validateToken])
 
     useEffect(() => {
         if (data) {
@@ -29,7 +29,7 @@ const PrivateLayout = ({ children }) => {
             }
             setLoadingAuth(false)
         }
-    }, [data])
+    }, [data, setToken])
 
     if (loading || loadingAuth) return <div>Cargando...</div>
     if (!authToken) {

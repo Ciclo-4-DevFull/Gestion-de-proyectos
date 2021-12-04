@@ -68,7 +68,7 @@ function App() {
         rol: decoded.rol,
         estado: decoded.estado
       });
-      console.log(userData)
+      //console.log(userData)
     };
   }, [authToken])
 

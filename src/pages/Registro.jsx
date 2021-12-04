@@ -8,7 +8,7 @@ import { useAuth } from 'context/AuthContext'
 
 const Registro = () => {
 
-    const [registro, { data, loading, error }] = useMutation(REGISTRO);
+    const [registro, { data }] = useMutation(REGISTRO);
     const { setToken } = useAuth();
     const history = useHistory();
     const form = useRef();
@@ -20,10 +20,15 @@ const Registro = () => {
         fd.forEach((value, key) => {
             nuevoUsuario[key] = value
         });
-        registro({
-            variables: nuevoUsuario
-        })
-        toast.success('Te has registrado éxitosamente')
+
+        if (!nuevoUsuario.rol) {
+            toast.error('Debe seleccionar un rol')
+        } else {
+            registro({
+                variables: nuevoUsuario
+            })
+            toast.success('Te has registrado éxitosamente')
+        }
     }
 
     useEffect(() => {
@@ -45,27 +50,27 @@ const Registro = () => {
                         </label>
                         <form method="#" action="#" className="mt-10" onSubmit={submitform} ref={form}>
                             <div>
-                                <input name='nombre' type="text" placeholder="Nombres" className="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 px-3" />
+                                <input name='nombre' required type="text" placeholder="Nombres" className="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 px-3" />
                             </div>
 
                             <div className="mt-7">
-                                <input name='apellido' type="text" placeholder="Apellidos" className="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 px-3" />
+                                <input name='apellido' required type="text" placeholder="Apellidos" className="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 px-3" />
                             </div>
 
                             <div className="mt-7">
-                                <input name='correo' type="email" placeholder="Correo electronico" className="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 px-3" />
+                                <input name='correo' required type="email" placeholder="Correo electronico" className="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 px-3" />
                             </div>
 
                             <div className="mt-7">
-                                <input name='identificacion' type="text" placeholder="Cédula de ciudadanía" className="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 px-3" />
+                                <input name='identificacion' required type="text" placeholder="Cédula de ciudadanía" className="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 px-3" />
                             </div>
 
                             <div className="mt-7">
-                                <input name='password' type="password" placeholder="Contraseña" className="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 px-3" />
+                                <input name='password' required type="password" placeholder="Contraseña" className="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 px-3" />
                             </div>
 
                             <div className="mt-7">
-                                <select name="rol" defaultValue={0} className="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 px-3">
+                                <select name="rol" required defaultValue={0} className="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 px-3">
                                     <option disabled value={0}>Selecciona el rol</option>
                                     <option value='ESTUDIANTE'>Estudiante</option>
                                     <option value='LIDER'>Líder</option>

@@ -4,10 +4,11 @@ import project from 'media/projectmanagement.jpg'
 import { useMutation } from '@apollo/client'
 import { LOGIN } from 'graphql/auth/mutations'
 import { useAuth } from 'context/AuthContext'
+import { ToastContainer, toast } from 'react-toastify'
 
 const Login = () => {
 
-    const [login, { data, loading, error }] = useMutation(LOGIN);
+    const [login, { data }] = useMutation(LOGIN);
     const { setToken } = useAuth()
     const history = useHistory();
     const form = useRef();
@@ -29,8 +30,12 @@ const Login = () => {
             if (data.login.token) {
                 setToken(data.login.token);
                 history.push('/bienvenida')
+            } else if (data.login.error) {
+                form.current.reset();
+                toast.error("Usuario o contraseña incorrectos")
             }
         }
+        console.log(data)
     }, [data, history, setToken])
 
     return (
@@ -60,10 +65,9 @@ const Login = () => {
                     </label>
                 </Link>
             </div>
+            <ToastContainer />
         </div>
     )
-    //<Link to="/bienvenida">
-    //</Link>
 }
 
 export default Login;
