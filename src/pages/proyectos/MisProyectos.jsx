@@ -5,127 +5,46 @@ import blockchain from 'media/blockchain.png'
 
 const MisProyectos = () => {
     return (
-    <div class="w-full bg-gray-800">
-        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12">
-            <div class="text-center pb-12">
-                <h1 class="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-white">
-                    Mis Proyectos            
-                </h1>
-            <div class="w-full bg-gray-900 rounded-lg sahdow-lg p-12 flex flex-col justify-center items-center">
-                <div class="mb-8">
-                    <img class="object-center object-cover rounded-full h-36 w-200" src={blockchain} alt='logo'/>  
-                    <div class="text-center">
-                        <p class="text-xl text-white font-bold mb-2">Proyecto 1</p>
-                        <p class="text-base text-gray-400 font-normal">Blockchain</p>
-                    </div>          
+        // <!-- Section Hero -->
+     <div class="bg-white-100 py-14">
+        <h1 class="mt-8 text-center text-5xl text-green-600 font-bold">Mis proyectos</h1>
+      
+        <div class="flex flex-row justify-center md:space-x-0 md:px-14 gap-6 md:w-full">
+
+            <div class="m-8 py-4 px-4 bg-whit w-72 bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-110 transition duration-500 mx-auto md:mx-0">
+              <div class="w-sm">
+                <img class="w-64" src="https://images01.nicepage.com/c461c07a441a5d220e8feb1a/a17abde8d83650a582a28432/users-with-speech-bubbles-vector_53876-82250.jpg" alt="" />
+                <div class="mt-4 text-green-600 text-center">
+                  <h1 class="text-xl font-bold text-white">Forestal</h1>
+                  <p class="mt-4 text-white">Grupo liderado por Juan</p>
+                  <button class="mt-8 mb-4 py-2 px-14 rounded-full bg-green-600 text-white tracking-widest hover:bg-green-500 transition duration-200">MAS..</button>
                 </div>
-                <div class="w-full bg-gray-900 rounded-lg sahdow-lg p-12 flex flex-col justify-center items-center">
-                    <div class="mb-8">
-                        <img class="object-center object-cover rounded-full h-36 w-36" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80" alt="photo"/>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-xl text-white font-bold mb-2">Lucy Carter</p>
-                        <p class="text-base text-gray-400 font-normal">Graphic Designer</p>
-                    </div>
+              </div>
+            </div>
+      
+            <div class="mt-8 py-4 px-4 bg-whit w-72 bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-110 transition duration-500 mx-auto md:mx-0">
+              <div class="w-sm">
+                <img class="w-64" src="https://images01.nicepage.com/c461c07a441a5d220e8feb1a/3b242447f922540fbe750cab/fdf.jpg" alt="" />
+                <div class="mt-4 text-green-600 text-center">
+                  <h1 class="text-xl font-bold text-white">Desarrollo de Software</h1>
+                  <p class="mt-4 text-white">Utilizamos metodología SCRUM</p>
+                  <button class="mt-8 mb-4 py-2 px-14 rounded-full bg-green-600 text-white tracking-widest hover:bg-green-500 transition duration-200">MAS..</button>
                 </div>
-                <div class="w-full bg-gray-900 rounded-lg sahdow-lg p-12 flex flex-col justify-center items-center">
-                    <div class="mb-8">
-                        <img class="object-center object-cover rounded-full h-36 w-36" src="https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1176&q=80" alt="photo"/>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-xl text-white font-bold mb-2">Jade Bradley</p>
-                        <p class="text-base text-gray-400 font-normal">Dev Ops</p>
-                    </div>
+              </div>
+            </div>
+      
+            <div class="mt-8 py-4 px-4 bg-whit w-72 bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-110 transition duration-500 mx-auto md:mx-0">
+              <div class="w-sm">
+                <img class="w-64" src="https://images01.nicepage.com/c461c07a441a5d220e8feb1a/8cc47b39e719570b996d9879/dsds.jpg" alt="" />
+                <div class="mt-4 text-green-600 text-center">
+                  <h1 class="text-xl font-bold text-white">Analisis de Datos</h1>
+                  <p class="mt-4 text-white">Herramientas adecuadas de Analisis</p>
+                  <button class="mt-8 mb-4 py-2 px-14 rounded-full bg-green-600 text-white tracking-widest hover:bg-green-500 transition duration-200">MAS...</button>
                 </div>
-                <div class="w-full bg-gray-900 rounded-lg sahdow-lg p-12 flex flex-col justify-center items-center">
-                    <div class="mb-8">
-                        <img class="object-center object-cover rounded-full h-36 w-36" src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80" alt="photo"/>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-xl text-white font-bold mb-2">Dany Bailey</p>
-                        <p class="text-base text-gray-400 font-normal">Software Engineer</p>
-                    </div>
-                </div>
-                <div class="w-full bg-gray-900 rounded-lg sahdow-lg p-12 flex flex-col justify-center items-center">
-                    <div class="mb-8">
-                        <img class="object-center object-cover rounded-full h-36 w-36" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80" alt="photo"/>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-xl text-white font-bold mb-2">Lucy Carter</p>
-                        <p class="text-base text-gray-400 font-normal">Graphic Designer</p>
-                    </div>
-                </div>
-                <div class="w-full bg-gray-900 rounded-lg sahdow-lg p-12 flex flex-col justify-center items-center">
-                    <div class="mb-8">
-                        <img class="object-center object-cover rounded-full h-36 w-36" src="https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1176&q=80" alt="photo"/>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-xl text-white font-bold mb-2">Jade Bradley</p>
-                        <p class="text-base text-gray-400 font-normal">Dev Ops</p>
-                    </div>
-                </div>               
+              </div>
             </div>
         </div>
-        </section>
     </div>
- 
-        /* <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="w-full bg-gray-900 rounded-lg sahdow-lg p-12 flex flex-col justify-center items-center">
-                <div class="mb-8">
-                    <img class="object-center object-cover rounded-full h-36 w-36" src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80" alt="photo">
-                </div>
-                <div class="text-center">
-                    <p class="text-xl text-white font-bold mb-2">Dany Bailey</p>
-                    <p class="text-base text-gray-400 font-normal">Software Engineer</p>
-                </div>
-            </div>
-            <div class="w-full bg-gray-900 rounded-lg sahdow-lg p-12 flex flex-col justify-center items-center">
-                <div class="mb-8">
-                    <img class="object-center object-cover rounded-full h-36 w-36" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80" alt="photo">
-                </div>
-                <div class="text-center">
-                    <p class="text-xl text-white font-bold mb-2">Lucy Carter</p>
-                    <p class="text-base text-gray-400 font-normal">Graphic Designer</p>
-                </div>
-            </div>
-            <div class="w-full bg-gray-900 rounded-lg sahdow-lg p-12 flex flex-col justify-center items-center">
-                <div class="mb-8">
-                    <img class="object-center object-cover rounded-full h-36 w-36" src="https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1176&q=80" alt="photo">
-                </div>
-                <div class="text-center">
-                    <p class="text-xl text-white font-bold mb-2">Jade Bradley</p>
-                    <p class="text-base text-gray-400 font-normal">Dev Ops</p>
-                </div>
-            </div>
-            <div class="w-full bg-gray-900 rounded-lg sahdow-lg p-12 flex flex-col justify-center items-center">
-                <div class="mb-8">
-                    <img class="object-center object-cover rounded-full h-36 w-36" src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80" alt="photo">
-                </div>
-                <div class="text-center">
-                    <p class="text-xl text-white font-bold mb-2">Dany Bailey</p>
-                    <p class="text-base text-gray-400 font-normal">Software Engineer</p>
-                </div>
-            </div>
-            <div class="w-full bg-gray-900 rounded-lg sahdow-lg p-12 flex flex-col justify-center items-center">
-                <div class="mb-8">
-                    <img class="object-center object-cover rounded-full h-36 w-36" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80" alt="photo">
-                </div>
-                <div class="text-center">
-                    <p class="text-xl text-white font-bold mb-2">Lucy Carter</p>
-                    <p class="text-base text-gray-400 font-normal">Graphic Designer</p>
-                </div>
-            </div>
-            <div class="w-full bg-gray-900 rounded-lg sahdow-lg p-12 flex flex-col justify-center items-center">
-                <div class="mb-8">
-                    <img class="object-center object-cover rounded-full h-36 w-36" src="https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1176&q=80" alt="photo">
-                </div>
-                <div class="text-center">
-                    <p class="text-xl text-white font-bold mb-2">Jade Bradley</p>
-                    <p class="text-base text-gray-400 font-normal">Dev Ops</p>
-                </div>
-            </div>
-        </div> */
-
     )
 }
 
