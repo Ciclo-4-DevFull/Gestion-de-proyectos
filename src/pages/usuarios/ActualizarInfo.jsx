@@ -1,22 +1,41 @@
 import React, { useRef } from 'react'
 import Input from 'components/Input'
 import { toast, ToastContainer } from 'react-toastify'
+import { useUser } from 'context/UserContext';
+import { EDIT_USUARIO } from 'graphql/users/mutations';
+import { useMutation } from '@apollo/client';
 
 const ActualizarInfo = () => {
 
     const form = useRef();
+    const { userData } = useUser();
+    const [editarUsuario] = useMutation(EDIT_USUARIO)
 
     const submitform = (e) => {
         e.preventDefault();
         const fd = new FormData(form.current);
-        const nuevoUsuario = {};
+        const usuarioEditado = {};
         fd.forEach((value, key) => {
-            nuevoUsuario[key] = value
+            usuarioEditado[key] = value
         });
 
-        if (nuevoUsuario.password === nuevoUsuario.password2) {
-            delete nuevoUsuario.password2
-            console.log(nuevoUsuario)
+        usuarioEditado['estado'] = userData.estado
+        usuarioEditado['rol'] = userData.rol
+        usuarioEditado['_id'] = userData._id
+
+        if (usuarioEditado.password === usuarioEditado.password2) {
+            delete usuarioEditado.password2
+            editarUsuario({
+                variables: {
+                    _id: usuarioEditado._id,
+                    nombre: usuarioEditado.nombre,
+                    apellido: usuarioEditado.apellido,
+                    identificacion: usuarioEditado.identificacion,
+                    correo: usuarioEditado.correo,
+                    rol: usuarioEditado.rol,
+                    estado: "AUTORIZADO"
+                }
+            })
             toast.success('Información actualizada exitosamente')
         } else {
             toast.error('Las contraseñas no coinciden')

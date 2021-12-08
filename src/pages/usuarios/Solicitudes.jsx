@@ -13,7 +13,11 @@ import { ELIMINAR_USUARIO } from 'graphql/users/mutations';
 const Solicitudes = () => {
 
     const [usuarios, setUsuarios] = useState([])
-    const { data: queryData, error: queryError, loading: queryLoading } = useQuery(GET_USUARIOS)
+    const { data: queryData, error: queryError, loading: queryLoading } = useQuery(GET_USUARIOS, {
+        variables: {
+            estado: "PENDIENTE"
+        }
+    })
     const [editarUsuario] = useMutation(EDIT_USUARIO)
     const [eliminarUsuario] = useMutation(ELIMINAR_USUARIO);
 
@@ -51,22 +55,12 @@ const Solicitudes = () => {
         toast.success('Operación realiazada con éxito')
     }
 
-    const pendientes = (datos) => {
-        const usuarios = []
-        datos.forEach(usuario => {
-            usuario.estado === 'PENDIENTE' && usuarios.push(usuario)
-        })
-        return usuarios
-    }
-
     useEffect(() => {
         if (typeof (queryData) === 'object') {
-            const res = pendientes(queryData.Usuarios)
-            setUsuarios(res)
-            console.log(queryData)
+            setUsuarios(queryData.Usuarios)
         }
         queryError && toast.error('error consultando los usuarios')
-    }, [queryData, setUsuarios, queryError])
+    }, [queryData, setUsuarios, queryError, usuarios])
 
     if (queryLoading) return <ReactLoading type={'spokes'} color={'#95CCBB'} heigth={'10%'} width={'10%'} className='py-40' />
 

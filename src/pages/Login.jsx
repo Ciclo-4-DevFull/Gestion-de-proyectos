@@ -45,7 +45,7 @@ const Login = () => {
                 <div className='p-1' style={{ borderTop: "2px solid #fff " }}></div>
                 <form className='w-70' onSubmit={submitform} ref={form}>
                     <div className="mb-3">
-                        <label for="exampleInputEmail1" className="form-label text-white">Correo electrónico:</label>
+                        <label htmlFor="exampleInputEmail1" className="form-label text-white">Correo electrónico:</label>
                         <input name='correo' type="email" className="form-control h-8" aria-describedby="emailHelp" />
                     </div>
                     <div className="mb-3">

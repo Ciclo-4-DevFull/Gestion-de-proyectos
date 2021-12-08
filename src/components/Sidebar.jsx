@@ -40,12 +40,16 @@ const Opciones = ({ barra, setBarra }) => {
                     aria-controls="panel1a-content"
                     id="panel1a-header">
                     <Typography>
-                        <div className='font-semibold'>Gestión de usuarios</div>
+                        <span className='font-semibold'>Gestión de usuarios</span>
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails className='flex flex-col items-start'>
-                    <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Actualizar información</Typography>
-                    <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Solicitudes</Typography>
+                    <Link to='/actualizar-info' className='no-underline text-gray-800'>
+                        <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Actualizar información</Typography>
+                    </Link>
+                    <Link to='/solicitudes' className='no-underline text-gray-800' >
+                        <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Solicitudes</Typography>
+                    </Link>
                 </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -54,13 +58,19 @@ const Opciones = ({ barra, setBarra }) => {
                     aria-controls="panel1a-content"
                     id="panel1a-header">
                     <Typography>
-                        <div className='font-semibold'>Gestión de proyectos</div>
+                        <span className='font-semibold'>Gestión de proyectos</span>
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails className='flex flex-col items-start'>
-                    <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Registrar proyecto</Typography>
-                    <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Mis proyectos</Typography>
-                    <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Buscar proyecto</Typography>
+                    <Link to='/registro-proyecto' className='no-underline text-gray-800'>
+                        <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Registrar proyecto</Typography>
+                    </Link>
+                    <Link to='/mis-proyectos' className='no-underline text-gray-800'>
+                        <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Mis proyectos</Typography>
+                    </Link>
+                    <Link to='/detalle-proyecto' className='no-underline text-gray-800'>
+                        <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Buscar proyecto</Typography>
+                    </Link>
                 </AccordionDetails>
             </Accordion>
             <Link to='/' className='flex justify-center no-underline'>

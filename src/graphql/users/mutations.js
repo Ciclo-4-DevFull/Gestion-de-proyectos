@@ -39,6 +39,4 @@ mutation Mutation($_id: String!) {
 }
 
 `
-
-
 export { EDIT_USUARIO, ELIMINAR_USUARIO };
