@@ -68,7 +68,7 @@ const Opciones = ({ barra, setBarra }) => {
                     <Link to='/mis-proyectos' className='no-underline text-gray-800'>
                         <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Mis proyectos</Typography>
                     </Link>
-                    <Link to='/detalle-proyecto' className='no-underline text-gray-800'>
+                    <Link to='/busca-proyecto' className='no-underline text-gray-800'>
                         <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Buscar proyecto</Typography>
                     </Link>
                 </AccordionDetails>
