@@ -25,7 +25,7 @@ const RegistroProyecto = () => {
             </div>
         </div>
         <div class="flex items-center justify-center w-full">
-            <button class="mt-9 font-semibold leading-none text-white py-4 px-10 bg-gray-800 rounded hover:bg-gray-600 focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 focus:outline-none">
+            <button class="mt-9 font-semibold leading-none text-white py-4 px-10 bg-gray-800 rounded hover:bg-gray-600 transition ease-in duration-700 focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 focus:outline-none">
                  Guardar Proyecto
             </button>
         </div>    
