@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client'
 import { GET_PROJECTS } from 'graphql/projects/queries'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Table from 'react-bootstrap/Table'
 import ReactLoading from 'react-loading'
 import expand from 'media/expand.png'

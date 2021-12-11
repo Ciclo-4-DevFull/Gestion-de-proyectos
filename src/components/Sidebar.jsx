@@ -44,11 +44,11 @@ const Opciones = ({ barra, setBarra }) => {
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails className='flex flex-col items-start'>
+                    <Link to='/usuarios' className='no-underline text-gray-800' >
+                        <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Usuarios</Typography>
+                    </Link>
                     <Link to='/actualizar-info' className='no-underline text-gray-800'>
                         <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Actualizar información</Typography>
-                    </Link>
-                    <Link to='/solicitudes' className='no-underline text-gray-800' >
-                        <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Solicitudes</Typography>
                     </Link>
                 </AccordionDetails>
             </Accordion>
