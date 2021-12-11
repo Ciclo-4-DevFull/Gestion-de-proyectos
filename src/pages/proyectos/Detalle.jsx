@@ -10,6 +10,8 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import check from 'media/check.png'
+import denied from 'media/denied.png'
 
 const Detalle = () => {
 
@@ -150,6 +152,63 @@ const Detalle = () => {
                             <hr style={{border:'15px', display:'flex'}}/>
                             <Descripcion open={open} setOpen={setOpen} />
                             <button className='mr-2 bg-green-700 rounded px-2 py-1 text-white font-semibold'>Nuevo avance</button>
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion>
+                        <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel2a-content"
+                        id="panel2a-header"
+                        >
+                        <Typography>Inscripciones</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                        <hr style={{border:'15px', display:'flex'}}/>
+                            <Table hover borderless className='my-1 table-auto'>
+                                <thead>
+                                    <tr>
+                                        <th width='25%'>Fecha ingreso</th>
+                                        <th width='35%'>Estudiante</th>
+                                        <th width='20%'>Estado</th>
+                                        <th width='5%'></th>
+                                        <th width='8%'></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>11/12/2021</td>
+                                        <td>Simón Suárez</td>
+                                        <td>Pendiente</td>
+                                        <td>
+                                            <button onClick={() => {setOpen(true)}}>
+                                                <img src={check} alt='' title='Aprobar' className='h-5' />
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button onClick={() => {setOpen(true)}}>
+                                                <img src={denied} alt='' title='No aprobar' className='h-4' />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>12/12/2021</td>
+                                        <td>Teresa Machado</td>
+                                        <td>Autorizado</td>
+                                        <td>
+                                            <button onClick={() => {setOpen(true)}}>
+                                                <img src={check} alt='' title='Aprobar' className='h-5' />
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button onClick={() => {setOpen(true)}}>
+                                                <img src={denied} alt='' title='No aprobar' className='h-4' />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                            <hr style={{border:'15px', display:'flex'}}/>
+                            <Descripcion open={open} setOpen={setOpen} />
                         </AccordionDetails>
                     </Accordion>
                     </div>
