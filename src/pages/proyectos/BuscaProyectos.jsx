@@ -8,12 +8,51 @@ import { Dialog } from '@mui/material'
 import { INSCRIPTION } from 'graphql/inscriptions/mutations'
 import { useUser } from 'context/UserContext'
 import { toast, ToastContainer } from 'react-toastify'
+import { CAMBIAR_ESTADO } from 'graphql/projects/mutations'
 
 const BuscaProyectos = () => {
 
     const { data, loading } = useQuery(GET_PROJECTS);
+    const [editarProyecto] = useMutation(CAMBIAR_ESTADO)
     const [open, setOpen] = useState(false)
     const [id, setId] = useState('')
+    const { userData } = useUser()
+
+    const cambiarEstado = (proyecto, nuevo) => {
+
+        if (nuevo === 'ACTIVO' & proyecto.fase === 'NULO') {
+            editarProyecto({
+                variables: {
+                    id: proyecto._id,
+                    estado: nuevo,
+                    fase: "INICIADO",
+                    inicio: Date.now()
+                }
+            })
+        } else {
+            editarProyecto({
+                variables: {
+                    id: proyecto._id,
+                    estado: nuevo
+                }
+            })
+        }
+        toast.success("Proyecto actualizado exitosamente")
+        window.location.reload()
+    }
+
+    const cambiarFase = (proyecto, nuevo) => {
+        nuevo === 'TERMINADO' && editarProyecto({
+            variables: {
+                id: proyecto._id,
+                estado: 'INACTIVO',
+                fase: nuevo,
+                fin: Date.now()
+            }
+        })
+        toast.success("Proyecto actualizado exitosamente")
+        window.location.reload()
+    }
 
     if (loading) return <ReactLoading type={'spokes'} color={'#95CCBB'} heigth={'10%'} width={'10%'} className='py-40' />
 
@@ -36,13 +75,27 @@ const BuscaProyectos = () => {
                             <tr key={proyecto._id}>
                                 <td>{proyecto.nombre}</td>
                                 <td>{
-                                    proyecto.estado === 'ACTIVO' ? 'Activo' : 'Inactivo'
+                                    userData.rol === 'ADMINISTRADOR' ?
+                                        <select defaultValue={proyecto.estado} onChange={(e) => cambiarEstado(proyecto, e.target.value)}>
+                                            <option value='ACTIVO'>Activo</option>
+                                            <option value='INACTIVO'>Inactivo</option>
+                                        </select>
+                                        :
+                                        proyecto.estado === 'ACTIVO' ? 'Activo' : 'Inactivo'
                                 }</td>
                                 <td>{
-                                    proyecto.fase === 'NULO' ? 'No iniciado'
-                                        : 'INICIADO' ? 'Iniciado'
-                                            : 'DESARROLLO' ? 'Desarrollo'
-                                                : 'Terminado'
+                                    userData.rol === 'ADMINISTRADOR' ?
+                                        <select defaultValue={proyecto.fase} onChange={(e) => { cambiarFase(proyecto, e.target.value) }}>
+                                            <option value='NULO'> </option>
+                                            <option value='INICIADO'>Iniciado</option>
+                                            <option value='DESARROLLO'>En desarrollo</option>
+                                            <option value='TERMINADO'>Terminado</option>
+                                        </select>
+                                        :
+                                        proyecto.fase === 'NULO' ? 'No iniciado'
+                                            : 'INICIADO' ? 'Iniciado'
+                                                : 'DESARROLLO' ? 'Desarrollo'
+                                                    : 'Terminado'
                                 }</td>
                                 <td>{`${proyecto.lider.nombre} ${proyecto.lider.apellido}`}</td>
                                 <td className=' flex justify-center h-10'>
@@ -55,14 +108,14 @@ const BuscaProyectos = () => {
                     })}
                 </tbody>
             </Table>
-            <Detalle open={open} setOpen={setOpen} id={id} />
+            <Detalle open={open} setOpen={setOpen} id={id} estudiante={userData._id} />
+            <ToastContainer />
         </div>
     )
 }
 
 const Detalle = (props) => {
 
-    const { userData } = useUser()
     const [inscripcion] = useMutation(INSCRIPTION)
     const { data: ProjectData, loading: loadingProject } = useQuery(GET_PROJECTS, {
         variables: {
@@ -74,7 +127,7 @@ const Detalle = (props) => {
         inscripcion({
             variables: {
                 proyecto: id,
-                estudiante: userData._id
+                estudiante: props.estudiante
             }
         })
         toast.success('Se ha inscrito al proyecto exitosamente')

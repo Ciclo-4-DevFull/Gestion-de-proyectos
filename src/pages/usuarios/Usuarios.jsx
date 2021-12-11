@@ -49,7 +49,7 @@ const Usuarios = () => {
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails className='flex flex-col items-start'>
-                    <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>
+                    <Typography className='cursor-pointer hover:text-blue-900 py-0.5' style={{ width: '90%' }}>
                         <Pendientes usuarios={usuarios} />
                     </Typography>
                 </AccordionDetails>
@@ -67,7 +67,7 @@ const Usuarios = () => {
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails className='flex flex-col items-start'>
-                    <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>
+                    <Typography className='cursor-pointer hover:text-blue-900 py-0.5' style={{ width: '90%' }}>
                         <Listar usuarios={usuarios} />
                     </Typography>
                 </AccordionDetails>
@@ -124,7 +124,7 @@ const Pendientes = (props) => {
             {
                 usuarios.some(e => e.estado === 'PENDIENTE') ?
                     <Table hover borderless>
-                        <thead className='bg-blue-100'>
+                        <thead >
                             <tr>
                                 <th>Nombres</th>
                                 <th>Apellidos</th>
@@ -178,7 +178,7 @@ const Listar = (props) => {
     return (
 
         <Table hover borderless >
-            <thead className='bg-blue-100'>
+            <thead>
                 <tr>
                     <th>Nombres</th>
                     <th>Apellidos</th>
