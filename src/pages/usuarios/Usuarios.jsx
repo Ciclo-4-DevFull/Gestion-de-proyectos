@@ -49,7 +49,7 @@ const Usuarios = () => {
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails className='flex flex-col items-start'>
-                    <Typography className='cursor-pointer hover:text-blue-900 py-0.5' style={{ width: '90%' }}>
+                    <Typography className='cursor-pointer hover:text-blue-900 py-0.5' style={{ width: '95%' }}>
                         <Pendientes usuarios={usuarios} />
                     </Typography>
                 </AccordionDetails>
