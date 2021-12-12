@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Table from 'react-bootstrap/Table'
 import edit from 'media/edit.png'
 import plus from 'media/plus.png'
@@ -12,15 +12,42 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import check from 'media/check.png'
 import denied from 'media/denied.png'
+import { GET_PROJECTS } from 'graphql/projects/queries'
+import { useMutation, useQuery } from '@apollo/client';
+import ReactLoading from 'react-loading';
+import { useParams } from 'react-router-dom'
 
 const Detalle = () => {
+    
+    let params = useParams();
+    console.log("params", params)
 
     const [open, setOpen] = useState(false)
+
+    const [proyectos, setProyectos] = useState([])
+    const [lider, setLider] = useState([])
+    const [objetivos, setObjetivos] = useState([])
+
+    const { data: queryData, error: queryError, loading: queryLoading } = useQuery(GET_PROJECTS, {
+        variables: {
+            id: "61b05e0e097ea0203f1ba914"
+        }
+    })
+
+    useEffect(() => {
+        queryData && queryData.Proyectos && setProyectos(queryData.Proyectos[0])
+        queryData && queryData.Proyectos && setLider(queryData.Proyectos[0].lider)
+        queryData && queryData.Proyectos && setObjetivos(queryData.Proyectos[0].objetivos)
+        queryError && toast.error('error consultando los proyectos')
+    }, [queryData, setProyectos, queryError, proyectos])
+
+    if (queryLoading) return <ReactLoading type={'spokes'} color={'#95CCBB'} heigth={'10%'} width={'10%'} className='py-40' />
 
     return (
         <div>
             <h5 className='mt-8 mb-8 text-center'>Detalle Proyecto</h5>
             <div>
+                Ruta dinámica: {params.idproject}
                 <div className='mb-8'>
                     <Accordion>
                         <AccordionSummary
@@ -33,12 +60,12 @@ const Detalle = () => {
                         <AccordionDetails>
                             <hr style={{border:'15px', display:'flex'}}/>
                             <ul className="grid grid-cols-3 gap-4">
-                                <li><b>Nombre del proyecto:</b> <div className='flex flex-row'><span>Proyecto Nuevo </span> <button onClick={() => {setOpen(true)}}><img src={edit} alt='' className='h-4 pl-4' /></button></div></li>
-                                <li><b>Estado:</b> <div><span>Activo</span></div></li>
-                                <li><b>Lider:</b> <div><span>Edgardo Cadavid Machado</span></div></li>
-                                <li><b>Fecha inicio:</b> <div><span>10/12/2021</span></div></li>
-                                <li><b>Fecha finalización:</b> <div><span>10/06/2022</span></div></li>
-                                <li><b>Presupuesto:</b> <div className='flex flex-row'><span>$50.000 </span><button onClick={() => {setOpen(true)}}><img src={edit} alt='' className='h-4 pl-4'/></button></div></li>
+                                <li><b>Nombre del proyecto:</b> <div className='flex flex-row'><span>{proyectos.nombre}</span> <button onClick={() => {setOpen(true)}}><img src={edit} alt='' className='h-4 pl-4' /></button></div></li>
+                                <li><b>Estado:</b> <div><span>{proyectos.estado}</span></div></li>
+                                <li><b>Lider:</b> <div><span></span></div>{lider.nombre} {lider.apellido}</li>
+                                <li><b>Fecha inicio:</b> <div><span>{proyectos.inicio}</span></div></li>
+                                <li><b>Fecha finalización:</b> <div><span>{proyectos.fin}</span></div></li>
+                                <li><b>Presupuesto:</b> <div className='flex flex-row'><span>{proyectos.presupuesto}</span><button onClick={() => {setOpen(true)}}><img src={edit} alt='' className='h-4 pl-4'/></button></div></li>
                             </ul>
                             <hr style={{border:'15px', display:'flex'}}/>
                         </AccordionDetails>
@@ -61,24 +88,19 @@ const Detalle = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>General</td>
-                                        <td>Establecer el objetivo general</td>
-                                        <td>
-                                            <button onClick={() => {setOpen(true)}}>
-                                                <img src={edit} alt='' className='h-4' />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Específico</td>
-                                        <td>Generar el objetivo específico 1</td>
-                                        <td>
-                                            <button onClick={() => {setOpen(true)}}>
-                                                <img src={edit} alt='' className='h-4' />
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    {objetivos.map((objetivo) => {
+                                        return(
+                                            <tr>
+                                                <td>{objetivo.tipo}</td>
+                                                <td>{objetivo.descripcion}</td>
+                                                <td>
+                                                    <button onClick={() => {setOpen(true)}}>
+                                                        <img src={edit} alt='' className='h-4' />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
                                 </tbody>
                             </Table>
                             <hr style={{border:'15px', display:'flex'}}/>
@@ -193,7 +215,7 @@ const Detalle = () => {
                                     <tr>
                                         <td>12/12/2021</td>
                                         <td>Teresa Machado</td>
-                                        <td>Autorizado</td>
+                                        <td>Aceptado</td>
                                         <td>
                                             <button onClick={() => {setOpen(true)}}>
                                                 <img src={check} alt='' title='Aprobar' className='h-5' />

@@ -1,6 +1,7 @@
 import React from 'react'
 import logo from 'media/github.png'
 import blockchain from 'media/blockchain.png'
+import { Link } from 'react-router-dom'
 
 
 const MisProyectos = () => {
@@ -21,7 +22,9 @@ const MisProyectos = () => {
                 <div class="mt-4 text-green-600 text-center">
                   <h1 class="text-xl font-bold text-white">Desarrollo de Software</h1>
                   <p class="mt-4 text-white">Utilizamos metodología SCRUM</p>
-                  <button class="mt-8 py-2 px-14 rounded-full bg-green-600 text-white tracking-widest hover:bg-green-500 transition duration-200">MAS..</button>
+                  <Link to='/detalle-proyecto/1534098'>
+                    <button class="mt-8 py-2 px-14 rounded-full bg-green-600 text-white tracking-widest hover:bg-green-500 transition duration-200">MAS..</button>
+                  </Link>
                 </div>
             </div>
       

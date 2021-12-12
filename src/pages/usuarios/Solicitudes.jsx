@@ -18,6 +18,9 @@ const Solicitudes = () => {
             estado: "PENDIENTE"
         }
     })
+
+    console.log(usuarios)
+
     const [editarUsuario] = useMutation(EDIT_USUARIO)
     const [eliminarUsuario] = useMutation(ELIMINAR_USUARIO);
 
