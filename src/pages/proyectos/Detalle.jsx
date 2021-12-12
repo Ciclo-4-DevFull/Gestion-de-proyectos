@@ -27,6 +27,7 @@ const Detalle = () => {
     const [proyectos, setProyectos] = useState([])
     const [lider, setLider] = useState([])
     const [objetivos, setObjetivos] = useState([])
+    const [avances, setAvances] = useState([])
 
     const { data: queryData, error: queryError, loading: queryLoading } = useQuery(GET_PROJECTS, {
         variables: {
@@ -38,7 +39,9 @@ const Detalle = () => {
         queryData && queryData.Proyectos && setProyectos(queryData.Proyectos[0])
         queryData && queryData.Proyectos && setLider(queryData.Proyectos[0].lider)
         queryData && queryData.Proyectos && setObjetivos(queryData.Proyectos[0].objetivos)
+        queryData && queryData.Proyectos && setAvances(queryData.Proyectos[0].avances)
         queryError && toast.error('error consultando los proyectos')
+        console.log(proyectos)
     }, [queryData, setProyectos, queryError, proyectos])
 
     if (queryLoading) return <ReactLoading type={'spokes'} color={'#95CCBB'} heigth={'10%'} width={'10%'} className='py-40' />
@@ -129,46 +132,30 @@ const Detalle = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>11/12/2021</td>
-                                        <td>Se realizó el primer avance</td>
-                                        <td>
-                                            <button onClick={() => {setOpen(true)}}>
-                                                <img src={edit} alt='' title='Editar avance' className='h-4' />
-                                            </button>
-                                        </td>
-                                        <td>Observación 1</td>
-                                        <td>
-                                            <button onClick={() => {setOpen(true)}}>
-                                                <img src={edit} alt='' title='Editar observación' className='h-4' />
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button onClick={() => {setOpen(true)}}>
-                                                <img src={plus} alt='' title='Agregar observación' className='h-5' />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>12/12/2021</td>
-                                        <td>Se realizó el segundo avance</td>
-                                        <td>
-                                            <button onClick={() => {setOpen(true)}}>
-                                                <img src={edit} alt='' title='Editar avance' className='h-4' />
-                                            </button>
-                                        </td>
-                                        <td>Observación 2</td>
-                                        <td>
-                                            <button onClick={() => {setOpen(true)}}>
-                                                <img src={edit} alt='' title='Editar observación' className='h-4' />
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button onClick={() => {setOpen(true)}}>
-                                                <img src={plus} alt='' title='Agregar observación' className='h-5' />
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    {avances.map((avance) => {
+                                        return(
+                                            <tr>
+                                                <td>{avance.fecha}</td>
+                                                <td>{avance.descripcion}</td>
+                                                <td>
+                                                    <button onClick={() => {setOpen(true)}}>
+                                                        <img src={edit} alt='' title='Editar avance' className='h-4' />
+                                                    </button>
+                                                </td>
+                                                <td>{avance.observaciones}</td>
+                                                <td>
+                                                    <button onClick={() => {setOpen(true)}}>
+                                                        <img src={edit} alt='' title='Editar observación' className='h-4' />
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button onClick={() => {setOpen(true)}}>
+                                                        <img src={plus} alt='' title='Agregar observación' className='h-5' />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
                                 </tbody>
                             </Table>
                             <hr style={{border:'15px', display:'flex'}}/>

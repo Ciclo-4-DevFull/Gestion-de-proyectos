@@ -29,6 +29,17 @@ query Proyectos(
       descripcion
       tipo
     }
+    avances {
+      fecha
+      descripcion
+      creadoPor {
+        _id
+        apellido
+        nombre
+        rol
+      }
+      observaciones
+    }
   }
 }
 `;
