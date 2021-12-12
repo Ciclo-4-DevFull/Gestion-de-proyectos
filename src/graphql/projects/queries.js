@@ -40,6 +40,14 @@ query Proyectos(
       }
       observaciones
     }
+    inscripciones {
+      _id
+      estado
+      ingreso
+      estudiante {
+        _id
+      }
+    }
   }
 }
 `;

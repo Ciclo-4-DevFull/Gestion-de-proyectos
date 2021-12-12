@@ -16,6 +16,7 @@ import { GET_PROJECTS } from 'graphql/projects/queries'
 import { useMutation, useQuery } from '@apollo/client';
 import ReactLoading from 'react-loading';
 import { useParams } from 'react-router-dom'
+import { GET_USUARIOS } from 'graphql/users/queries'
 
 const Detalle = () => {
     
@@ -23,11 +24,14 @@ const Detalle = () => {
     console.log("params", params)
 
     const [open, setOpen] = useState(false)
-
     const [proyectos, setProyectos] = useState([])
     const [lider, setLider] = useState([])
     const [objetivos, setObjetivos] = useState([])
     const [avances, setAvances] = useState([])
+    const [inscripciones, setInscripciones] = useState([])
+    const [idestudiante, setIdestudiante] = useState([])
+    const [usuarios, setUsuarios] = useState([])
+    const [userdef, setUserdef] = useState([])
 
     const { data: queryData, error: queryError, loading: queryLoading } = useQuery(GET_PROJECTS, {
         variables: {
@@ -35,16 +39,55 @@ const Detalle = () => {
         }
     })
 
+    
+    const { data: queryData2} = useQuery(GET_USUARIOS)
+
     useEffect(() => {
-        queryData && queryData.Proyectos && setProyectos(queryData.Proyectos[0])
-        queryData && queryData.Proyectos && setLider(queryData.Proyectos[0].lider)
-        queryData && queryData.Proyectos && setObjetivos(queryData.Proyectos[0].objetivos)
-        queryData && queryData.Proyectos && setAvances(queryData.Proyectos[0].avances)
+        if(queryData2){
+            if(queryData2.Usuarios){
+                setUsuarios(queryData2.Usuarios)
+                const userDataFin = []
+                idestudiante.forEach(ID => {userDataFin.push(usuarios.find(user => user._id === ID))})
+                setUserdef(userDataFin)
+            }
+        }    
+    }, [queryData2, usuarios])
+
+    console.log("dataDef", userdef)
+
+    // Obtener el listado de usuarios que tengan los ID encontrados en los proyectos
+    
+    //console.log("dataDef", usuarios)
+    
+
+    useEffect(() => {
+        if (queryData) {
+            if(queryData.Proyectos){
+                setProyectos(queryData.Proyectos[0])
+                setLider(queryData.Proyectos[0].lider)
+                queryData && queryData.Proyectos && setObjetivos(queryData.Proyectos[0].objetivos)
+                queryData && queryData.Proyectos && setAvances(queryData.Proyectos[0].avances)
+                setInscripciones(queryData.Proyectos[0].inscripciones)
+                console.log("inscripciones", inscripciones)
+                const loque = []
+                inscripciones.forEach(student => {loque.push(student.estudiante._id)})
+                setIdestudiante(loque)
+            }
+        }
+        if(queryData2){
+            if(queryData2.Usuarios){
+                setUsuarios(queryData2.Usuarios)
+                const userDataFin = []
+                idestudiante.forEach(ID => {userDataFin.push(usuarios.find(user => user._id === ID))})
+                setUserdef(userDataFin)
+            }
+        }  
         queryError && toast.error('error consultando los proyectos')
-        console.log(proyectos)
-    }, [queryData, setProyectos, queryError, proyectos])
+    }, [queryData, setProyectos, queryError, proyectos, queryData2, usuarios])
 
     if (queryLoading) return <ReactLoading type={'spokes'} color={'#95CCBB'} heigth={'10%'} width={'10%'} className='py-40' />
+
+    console.log("mi estudiante", objetivos)
 
     return (
         <div>

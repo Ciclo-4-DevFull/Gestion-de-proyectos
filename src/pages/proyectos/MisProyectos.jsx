@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom'
 
 
 const MisProyectos = () => {
+  var idProyecto = '61b05e0e097ea0203f1ba914'
+  const ruta = '/detalle-proyecto/'+idProyecto
     return (
         <div class="bg-white-100">
             <h1 class="mb-15 text-center text-4xl text-gray-800 font-bold">Mis proyectos</h1>
@@ -22,7 +24,7 @@ const MisProyectos = () => {
                 <div class="mt-4 text-green-600 text-center">
                   <h1 class="text-xl font-bold text-white">Desarrollo de Software</h1>
                   <p class="mt-4 text-white">Utilizamos metodología SCRUM</p>
-                  <Link to='/detalle-proyecto/1534098'>
+                  <Link to={ruta}>
                     <button class="mt-8 py-2 px-14 rounded-full bg-green-600 text-white tracking-widest hover:bg-green-500 transition duration-200">MAS..</button>
                   </Link>
                 </div>
