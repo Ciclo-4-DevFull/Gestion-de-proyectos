@@ -69,17 +69,25 @@ const Detalle = () => {
         }
     }, [queryData2, usuarios, idestudiante])
 
-    console.log("dataDef", userdef)
+    const mio = []
+    for(var i = 0; i<inscripciones.length; i++){
+        mio.push(inscripciones[i])
+    }
 
-    // Obtener el listado de usuarios que tengan los ID encontrados en los proyectos
+    const users = []
+    for(var j = 0; j<userdef.length; j++){
+        users.push(userdef[i])
+    }
+    //mio = Object.assign(inscripciones, userdef)
+    
+    console.log("mio", inscripciones)
 
-    //console.log("dataDef", usuarios)
 
 
 
     if (queryLoading) return <ReactLoading type={'spokes'} color={'#95CCBB'} heigth={'10%'} width={'10%'} className='py-40' />
 
-    console.log("mi estudiante", objetivos)
+    console.log("mi estudiante", idestudiante)
 
     return (
         <div>
@@ -219,36 +227,25 @@ const Detalle = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>11/12/2021</td>
-                                        <td>Simón Suárez</td>
-                                        <td>Pendiente</td>
-                                        <td>
-                                            <button onClick={() => { setOpen(true) }}>
-                                                <img src={check} alt='' title='Aprobar' className='h-5' />
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button onClick={() => { setOpen(true) }}>
-                                                <img src={denied} alt='' title='No aprobar' className='h-4' />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>12/12/2021</td>
-                                        <td>Teresa Machado</td>
-                                        <td>Aceptado</td>
-                                        <td>
-                                            <button onClick={() => { setOpen(true) }}>
-                                                <img src={check} alt='' title='Aprobar' className='h-5' />
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button onClick={() => { setOpen(true) }}>
-                                                <img src={denied} alt='' title='No aprobar' className='h-4' />
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    {inscripciones.map((inscripcion) => {
+                                        return(
+                                            <tr>
+                                                <td>{inscripcion.ingreso}</td>
+                                                <td>{inscripcion.estudiante.nombre} {inscripcion.estudiante.apellido}</td>
+                                                <td>{inscripcion.estado}</td>
+                                                <td>
+                                                    <button onClick={() => { setOpen(true) }}>
+                                                        <img src={check} alt='' title='Aprobar' className='h-5' />
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button onClick={() => { setOpen(true) }}>
+                                                        <img src={denied} alt='' title='No aprobar' className='h-4' />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
                                 </tbody>
                             </Table>
                             <hr style={{ border: '15px', display: 'flex' }} />

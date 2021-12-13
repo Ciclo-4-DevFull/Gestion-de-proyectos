@@ -46,6 +46,8 @@ query Proyectos(
       ingreso
       estudiante {
         _id
+        nombre
+        apellido
       }
     }
   }
