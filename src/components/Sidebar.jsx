@@ -7,10 +7,12 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import foto from 'media/profile.png'
 import menu from 'media/menu.ico'
 import { useState } from 'react';
+import { Link } from 'react-router-dom'
+import { useAuth } from 'context/AuthContext';
 
 const Sidebar = () => {
 
-    const [barra, setBarra] = useState(true)
+    const [barra, setBarra] = useState(true);
 
     if (barra) {
         return (<Opciones barra={barra} setBarra={setBarra} />)
@@ -20,6 +22,9 @@ const Sidebar = () => {
 }
 
 const Opciones = ({ barra, setBarra }) => {
+
+    const { setToken } = useAuth();
+
     return (
         <div className='flex flex-col w-1/4 bg-gray-800 py-0.5 px-3 rounded-r'>
             <button className='my-3' onClick={() => { setBarra(!barra) }}>
@@ -35,12 +40,16 @@ const Opciones = ({ barra, setBarra }) => {
                     aria-controls="panel1a-content"
                     id="panel1a-header">
                     <Typography>
-                        <div className='font-semibold'>Gestión de usuarios</div>
+                        <span className='font-semibold'>Gestión de usuarios</span>
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails className='flex flex-col items-start'>
-                    <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Actualizar información</Typography>
-                    <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Solicitudes</Typography>
+                    <Link to='/usuarios' className='no-underline text-gray-800' >
+                        <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Usuarios</Typography>
+                    </Link>
+                    <Link to='/actualizar-info' className='no-underline text-gray-800'>
+                        <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Actualizar información</Typography>
+                    </Link>
                 </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -49,16 +58,24 @@ const Opciones = ({ barra, setBarra }) => {
                     aria-controls="panel1a-content"
                     id="panel1a-header">
                     <Typography>
-                        <div className='font-semibold'>Gestión de proyectos</div>
+                        <span className='font-semibold'>Gestión de proyectos</span>
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails className='flex flex-col items-start'>
-                    <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Registrar proyecto</Typography>
-                    <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Mis proyectos</Typography>
-                    <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Buscar proyecto</Typography>
+                    <Link to='/registro-proyecto' className='no-underline text-gray-800'>
+                        <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Registrar proyecto</Typography>
+                    </Link>
+                    <Link to='/mis-proyectos' className='no-underline text-gray-800'>
+                        <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Mis proyectos</Typography>
+                    </Link>
+                    <Link to='/busca-proyecto' className='no-underline text-gray-800'>
+                        <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Buscar proyecto</Typography>
+                    </Link>
                 </AccordionDetails>
             </Accordion>
-            <button className='mt-8 text-gray-50'>Cerrar sesión</button>
+            <Link to='/' className='flex justify-center no-underline'>
+                <button className='mt-8 text-gray-50' onClick={() => { setToken(null) }}>Cerrar sesión</button>
+            </Link>
         </div>
     )
 }
