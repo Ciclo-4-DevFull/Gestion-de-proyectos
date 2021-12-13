@@ -21,4 +21,25 @@ mutation EditarProyecto(
   }
 }
 `
-export { CAMBIAR_ESTADO };
+
+const CREATE_PROJECT = gql`
+mutation CrearProyecto(
+  $nombre: String!, 
+  $presupuesto: Float!, 
+  $lider: String!, 
+  $objetivos: [crearObjetivo]!
+) {
+  crearProyecto(
+    nombre: $nombre, 
+    presupuesto: $presupuesto, 
+    lider: $lider, 
+    objetivos: $objetivos
+  ) {
+    nombre
+    estado
+  }
+}
+`
+
+
+export { CAMBIAR_ESTADO, CREATE_PROJECT };

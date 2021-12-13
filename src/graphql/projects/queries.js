@@ -29,6 +29,25 @@ query Proyectos(
       descripcion
       tipo
     }
+    avances {
+      fecha
+      descripcion
+      creadoPor {
+        _id
+        apellido
+        nombre
+        rol
+      }
+      observaciones
+    }
+    inscripciones {
+      _id
+      estado
+      ingreso
+      estudiante {
+        _id
+      }
+    }
   }
 }
 `;

@@ -90,7 +90,7 @@ function App() {
                     <Route path='/mis-proyectos'>
                       <MisProyectos />
                     </Route>
-                    <Route path='/detalle-proyecto'>
+                    <Route path='/detalle-proyecto/:idproject'>
                       <Detalle />
                     </Route>
                     <Route path='/usuarios'>
