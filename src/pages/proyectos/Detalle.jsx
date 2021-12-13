@@ -16,7 +16,8 @@ import { GET_PROJECTS } from 'graphql/projects/queries'
 import { useMutation, useQuery } from '@apollo/client';
 import ReactLoading from 'react-loading';
 import { useParams } from 'react-router-dom'
-import { GET_USUARIOS } from 'graphql/users/queries'
+import { APROBAR_INSCRIPCION } from 'graphql/inscriptions/mutations'
+import { RECHAZAR_INSCRIPCION } from 'graphql/inscriptions/mutations'
 
 const Detalle = () => {
 
@@ -29,9 +30,6 @@ const Detalle = () => {
     const [objetivos, setObjetivos] = useState([])
     const [avances, setAvances] = useState([])
     const [inscripciones, setInscripciones] = useState([])
-    const [idestudiante, setIdestudiante] = useState([])
-    const [usuarios, setUsuarios] = useState([])
-    const [userdef, setUserdef] = useState([])
 
     const { data: queryData, error: queryError, loading: queryLoading } = useQuery(GET_PROJECTS, {
         variables: {
@@ -39,7 +37,28 @@ const Detalle = () => {
         }
     })
 
-    const { data: queryData2 } = useQuery(GET_USUARIOS)
+
+    const [editarInscripcion] = useMutation(APROBAR_INSCRIPCION)
+    const [rechazarInscripcion] = useMutation(RECHAZAR_INSCRIPCION)
+
+
+    const aceptar = (inscripcion) => {
+        editarInscripcion({
+            variables: {
+                id: inscripcion._id,
+            }
+        })
+        toast.success('Operación realizada con éxito')
+    }
+
+    const rechazar = (inscripcion) => {
+        rechazarInscripcion({
+            variables: {
+                id: inscripcion._id,
+            }
+        })
+        toast.success('Operación realizada con éxito')
+    }
 
     useEffect(() => {
         if (queryData) {
@@ -49,48 +68,16 @@ const Detalle = () => {
                 setObjetivos(queryData.Proyectos[0].objetivos)
                 setAvances(queryData.Proyectos[0].avances)
                 setInscripciones(queryData.Proyectos[0].inscripciones)
-                console.log("inscripciones", inscripciones)
-                const loque = []
-                inscripciones.forEach(student => { loque.push(student.estudiante._id) })
-                setIdestudiante(loque)
             }
         }
         queryError && toast.error('error consultando los proyectos')
-    }, [queryData, setProyectos, queryError, setIdestudiante, inscripciones])
-
-    useEffect(() => {
-        if (queryData2) {
-            if (queryData2.Usuarios) {
-                setUsuarios(queryData2.Usuarios)
-                const userDataFin = []
-                idestudiante.forEach(ID => { userDataFin.push(usuarios.find(user => user._id === ID)) })
-                setUserdef(userDataFin)
-            }
-        }
-    }, [queryData2, usuarios, idestudiante])
-
-    const mio = []
-    for(var i = 0; i<inscripciones.length; i++){
-        mio.push(inscripciones[i])
-    }
-
-    const users = []
-    for(var j = 0; j<userdef.length; j++){
-        users.push(userdef[i])
-    }
-    //mio = Object.assign(inscripciones, userdef)
-    
-    console.log("mio", inscripciones)
-
-
-
+    }, [queryData, setProyectos, queryError, inscripciones])
 
     if (queryLoading) return <ReactLoading type={'spokes'} color={'#95CCBB'} heigth={'10%'} width={'10%'} className='py-40' />
 
-    console.log("mi estudiante", idestudiante)
-
     return (
         <div>
+            <ToastContainer />
             <h5 className='mt-8 mb-8 text-center'>Detalle Proyecto</h5>
             <div>
                 Ruta dinámica: {params.idproject}
@@ -219,8 +206,8 @@ const Detalle = () => {
                             <Table hover borderless className='my-1 table-auto'>
                                 <thead>
                                     <tr>
-                                        <th width='25%'>Fecha ingreso</th>
-                                        <th width='35%'>Estudiante</th>
+                                        <th width='30%'>Fecha ingreso</th>
+                                        <th width='25%'>Estudiante</th>
                                         <th width='20%'>Estado</th>
                                         <th width='5%'></th>
                                         <th width='8%'></th>
@@ -234,12 +221,12 @@ const Detalle = () => {
                                                 <td>{inscripcion.estudiante.nombre} {inscripcion.estudiante.apellido}</td>
                                                 <td>{inscripcion.estado}</td>
                                                 <td>
-                                                    <button onClick={() => { setOpen(true) }}>
+                                                    <button onClick={() => { aceptar(inscripcion) }}>
                                                         <img src={check} alt='' title='Aprobar' className='h-5' />
                                                     </button>
                                                 </td>
                                                 <td>
-                                                    <button onClick={() => { setOpen(true) }}>
+                                                    <button onClick={() => { rechazar(inscripcion) }}>
                                                         <img src={denied} alt='' title='No aprobar' className='h-4' />
                                                     </button>
                                                 </td>
