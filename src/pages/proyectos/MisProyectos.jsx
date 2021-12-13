@@ -1,45 +1,49 @@
-import React from 'react'
-import logo from 'media/github.png'
-import blockchain from 'media/blockchain.png'
-import { Link } from 'react-router-dom'
-
+import { useQuery } from '@apollo/client'
+import Card from 'components/Card'
+import { useUser } from 'context/UserContext'
+import { GET_USERPROJECTS } from 'graphql/users/queries'
+import React, { useEffect, useState } from 'react'
+import ReactLoading from 'react-loading';
 
 const MisProyectos = () => {
-  var idProyecto = '61b05e0e097ea0203f1ba914'
-  const ruta = '/detalle-proyecto/'+idProyecto
-    return (
-        <div class="bg-white-100">
-            <h1 class="mb-15 text-center text-4xl text-gray-800 font-bold">Mis proyectos</h1>
-          <div class="grid gap-4 md:gap-6 grid-cols-3 m-8">
+  const { userData } = useUser()
+  const [insc, setInsc] = useState([])
+  const { data, loading } = useQuery(GET_USERPROJECTS, {
+    variables: {
+      id: userData._id
+    }
+  })
 
-            <div class="rounded-lg p-10 bg-whit bg-gray-800 shadow-lg hover:shadow-xl transform hover:scale-110 transition duration-500 mx-auto md:mx-auto">
-                <div class="mt-4 text-green-600 text-center">
-                    <h1 class="text-xl font-bold text-white">Analisis de Datos</h1>
-                    <p class="mt-4 text-white">Herramientas adecuadas de Analisis</p>
-                    <button class="mt-8 py-2 px-14 rounded-full bg-green-600 text-white tracking-widest hover:bg-green-500 transition duration-200">MAS...</button>
-                </div>
-            </div>
-      
-            <div class="rounded-lg p-10 bg-whit bg-gray-800 shadow-lg hover:shadow-xl transform hover:scale-110 transition duration-500 mx-auto md:mx-auto">
-                <div class="mt-4 text-green-600 text-center">
-                  <h1 class="text-xl font-bold text-white">Desarrollo de Software</h1>
-                  <p class="mt-4 text-white">Utilizamos metodología SCRUM</p>
-                  <Link to={ruta}>
-                    <button class="mt-8 py-2 px-14 rounded-full bg-green-600 text-white tracking-widest hover:bg-green-500 transition duration-200">MAS..</button>
-                  </Link>
-                </div>
-            </div>
-      
-            <div class="rounded-lg p-10 bg-whit bg-gray-800 shadow-lg hover:shadow-xl transform hover:scale-110 transition duration-500 mx-auto md:mx-auto">
-                <div class="mt-4 text-green-600 text-center">
-                  <h1 class="text-xl font-bold text-white">Analisis de Datos</h1>
-                  <p class="mt-4 text-white">Herramientas adecuadas de Analisis</p>
-                  <button class="mt-8 py-2 px-14 rounded-full bg-green-600 text-white tracking-widest hover:bg-green-500 transition duration-200">MAS...</button>
-                </div>
-            </div>
-          </div>
-        </div>
-    )
+  var idProyecto = '61b05e0e097ea0203f1ba914'
+  const ruta = '/detalle-proyecto/' + idProyecto
+
+  useEffect(() => {
+    if (data) {
+      if (data.Usuario.inscripciones) {
+        const inscripciones = data.Usuario.inscripciones.filter(inscripcion => inscripcion.estado !== 'PENDIENTE');
+        setInsc(inscripciones)
+      }
+    }
+  }, [data])
+
+  if (loading) return <ReactLoading type={'spokes'} color={'#95CCBB'} heigth={'10%'} width={'10%'} className='py-40' />
+
+  return (
+    <div className="bg-white-100">
+      <h3 className="mb-2 font-bold leading-7 text-center p-8">Mis proyectos</h3>
+      <div className="flex flex-row flex-wrap">
+        {
+          insc ?
+            insc.map(inscripcion => {
+              return (
+                <Card key={inscripcion.proyecto._id} ruta={ruta} nombre={inscripcion.proyecto.nombre} proyecto={inscripcion.proyecto} />
+              )
+            }) :
+            <></>
+        }
+      </div>
+    </div>
+  )
 }
 
 export default MisProyectos
