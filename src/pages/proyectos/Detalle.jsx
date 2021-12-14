@@ -18,6 +18,7 @@ import ReactLoading from 'react-loading';
 import { useParams } from 'react-router-dom'
 import { APROBAR_INSCRIPCION } from 'graphql/inscriptions/mutations'
 import { RECHAZAR_INSCRIPCION } from 'graphql/inscriptions/mutations'
+import { EDITAR_PROYECTO } from 'graphql/projects/mutations'
 
 const Detalle = () => {
 
@@ -30,6 +31,7 @@ const Detalle = () => {
     const [objetivos, setObjetivos] = useState([])
     const [avances, setAvances] = useState([])
     const [inscripciones, setInscripciones] = useState([])
+    const [tipo, setTipo] = useState("")
 
     const sleep = (milliseconds) => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -44,6 +46,8 @@ const Detalle = () => {
 
     const [editarInscripcion] = useMutation(APROBAR_INSCRIPCION)
     const [rechazarInscripcion] = useMutation(RECHAZAR_INSCRIPCION)
+    
+
 
 
     const aceptar = (inscripcion) => {
@@ -103,12 +107,12 @@ const Detalle = () => {
                         <AccordionDetails>
                             <hr style={{ border: '15px', display: 'flex' }} />
                             <ul className="grid grid-cols-3 gap-4">
-                                <li><b>Nombre del proyecto:</b> <div className='flex flex-row'><span>{proyectos.nombre}</span> <button onClick={() => { setOpen(true) }}><img src={edit} alt='' className='h-4 pl-4' /></button></div></li>
+                                <li><b>Nombre del proyecto:</b> <div className='flex flex-row'><span>{proyectos.nombre}</span> <button onClick={() => { setOpen(true); setTipo("nombre") }}><img src={edit} alt='' className='h-4 pl-4' /></button></div></li>
                                 <li><b>Estado:</b> <div><span>{proyectos.estado}</span></div></li>
                                 <li><b>Lider:</b> <div><span></span></div>{lider.nombre} {lider.apellido}</li>
                                 <li><b>Fecha inicio:</b> <div><span>{proyectos.inicio}</span></div></li>
                                 <li><b>Fecha finalización:</b> <div><span>{proyectos.fin}</span></div></li>
-                                <li><b>Presupuesto:</b> <div className='flex flex-row'><span>{proyectos.presupuesto}</span><button onClick={() => { setOpen(true) }}><img src={edit} alt='' className='h-4 pl-4' /></button></div></li>
+                                <li><b>Presupuesto:</b> <div className='flex flex-row'><span>{proyectos.presupuesto}</span><button onClick={() => { setOpen(true); setTipo("presupuesto") }}><img src={edit} alt='' className='h-4 pl-4' /></button></div></li>
                             </ul>
                             <hr style={{ border: '15px', display: 'flex' }} />
                         </AccordionDetails>
@@ -246,7 +250,7 @@ const Detalle = () => {
                                 </tbody>
                             </Table>
                             <hr style={{ border: '15px', display: 'flex' }} />
-                            <Descripcion open={open} setOpen={setOpen} />
+                            <Descripcion open={open} setOpen={setOpen} proyecto={proyectos} tipo={tipo} />
                         </AccordionDetails>
                     </Accordion>
                 </div>
@@ -257,13 +261,50 @@ const Detalle = () => {
 
 const Descripcion = (props) => {
 
+    const [nombre, setNombre] = useState("")
+    const [presupuesto, setPresupuesto] = useState(0)
+    const [editarProyecto] = useMutation(EDITAR_PROYECTO)
+    
+    
+    const modificar = () => {
+        console.log(props.tipo)
+        if(props.tipo === "nombre"){
+            if (nombre === ""){
+                setNombre(props.proyecto.nombre)
+            }
+            editarProyecto({
+                variables: {
+                    id: props.proyecto._id,
+                    nombre: nombre
+                }
+            })
+        } else if (props.tipo === "presupuesto"){
+            if (presupuesto === 0){
+                setPresupuesto(props.proyecto.presupuesto)
+            }
+            editarProyecto({
+                variables: {
+                    id: props.proyecto._id,
+                    presupuesto: parseFloat(presupuesto)
+                }
+            })
+        }
+        toast.success('Operación realizada con éxito')
+    }
+
+    const miFuncion = (e) => {
+        props.tipo === "nombre" ?
+        setNombre(e):
+        setPresupuesto(e)
+    } 
+
     return (
         <Dialog open={props.open}>
             <div className='flex flex-col m-4'>
                 <h5 className='mt-3 text-center'>Editar campo</h5>
-                <Input type="text" name='Descripcion' placeholder="Descripcion" required />
+                <input className='form-control' onChange={(e) => {miFuncion(e.target.value)}}/>
                 <div className='flex flex-row justify-end mt-2'>
-                    <button className='mr-2 bg-green-700 rounded px-2 py-1 text-white font-semibold' onClick={() => { toast.success('Se ha realizado el cambio exitosamente') }}>Aceptar</button>
+                    <button className='mr-2 bg-green-700 rounded px-2 py-1 text-white font-semibold' onClick={() => {modificar(props.proyecto)}}>Aceptar</button>
                     <button className='mr-1 bg-green-700 rounded px-2 py-1 text-white font-semibold' onClick={() => { props.setOpen(false) }}>Cerrar</button>
                 </div>
             </div>
