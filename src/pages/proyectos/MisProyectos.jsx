@@ -14,8 +14,8 @@ const MisProyectos = () => {
     }
   })
 
-  var idProyecto = '61b05e0e097ea0203f1ba914'
-  const ruta = '/detalle-proyecto/' + idProyecto
+  //var idProyecto = '61b05e0e097ea0203f1ba914'
+  const ruta = '/detalle-proyecto/'
 
   useEffect(() => {
     if (data) {
@@ -36,7 +36,7 @@ const MisProyectos = () => {
           insc ?
             insc.map(inscripcion => {
               return (
-                <Card key={inscripcion.proyecto._id} ruta={ruta} nombre={inscripcion.proyecto.nombre} proyecto={inscripcion.proyecto} />
+                <Card key={inscripcion.proyecto._id} ruta={ruta + inscripcion.proyecto._id} nombre={inscripcion.proyecto.nombre} proyecto={inscripcion.proyecto} />
               )
             }) :
             <></>

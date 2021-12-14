@@ -39,7 +39,7 @@ const Detalle = () => {
 
     const { data: queryData, error: queryError, loading: queryLoading } = useQuery(GET_PROJECTS, {
         variables: {
-            id: "61b05e0e097ea0203f1ba914"
+            id: params.idproject
         }
     })
 
@@ -94,7 +94,6 @@ const Detalle = () => {
             <ToastContainer />
             <h5 className='mt-8 mb-8 text-center'>Detalle Proyecto</h5>
             <div>
-                Ruta dinámica: {params.idproject}
                 <div className='mb-8'>
                     <Accordion>
                         <AccordionSummary
