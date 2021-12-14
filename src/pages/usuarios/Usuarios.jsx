@@ -143,9 +143,9 @@ const Pendientes = (props) => {
                                         <td>{usuario.identificacion}</td>
                                         <td>{usuario.correo}</td>
                                         <td>{
-                                            usuario.rol === 'ESTUDIANTE' ? 'Estudiante'
-                                                : 'ADMINISTRADOR' ? 'Administrador'
-                                                    : 'Lider'
+                                            usuario.rol === "ESTUDIANTE" ? "Estudiante"
+                                                : usuario.rol === "ADMINISTRADOR" ? "Administrador"
+                                                    : "Lider"
                                         }</td>
                                         <td className='flex flex-row justify-around'>
                                             <Tooltip title="Aprobar">
@@ -174,7 +174,6 @@ const Pendientes = (props) => {
 }
 
 const Listar = (props) => {
-
     return (
 
         <Table hover borderless >
@@ -198,7 +197,7 @@ const Listar = (props) => {
                             <td>{usuario.correo}</td>
                             <td>{
                                 usuario.rol === 'ESTUDIANTE' ? 'Estudiante'
-                                    : 'ADMINISTRADOR' ? 'Administrador'
+                                    : usuario.rol === 'ADMINISTRADOR' ? 'Administrador'
                                         : 'Lider'
                             }</td>
                             <td>{
