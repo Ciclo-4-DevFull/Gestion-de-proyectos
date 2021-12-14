@@ -1,38 +1,100 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import Input from 'components/Input'
+import Objetivos from 'components/Objetivos'
+import plus from 'media/plus.png'
+import { useUser } from 'context/UserContext'
+import { useMutation } from '@apollo/client'
+import { CREATE_PROJECT } from 'graphql/projects/mutations'
+import { toast, ToastContainer } from 'react-toastify'
 
 const RegistroProyecto = () => {
+
+    const [rel, setRel] = useState(false)
+    const [obj, setObj] = useState([{ 'nombre': '', 'presupuesto': 0, 'tipo': '', 'description': '' }])
+    const [creacionProyecto] = useMutation(CREATE_PROJECT);
+    const { userData } = useUser()
+    const form = useRef()
+
+    useEffect(() => {
+        setRel(false)
+    }, [rel])
+
+    const agregarObjetivo = (e) => {
+
+        e.preventDefault()
+        const fd = new FormData(form.current)
+        const nuevoObjetivo = {}
+        fd.forEach((value, key) => {
+            nuevoObjetivo[key] = value
+        })
+
+        const nuevoObj = obj
+        nuevoObj[nuevoObj.length - 1] = nuevoObjetivo
+        nuevoObj.push({ 'tipo': '', 'descripcion': '' })
+        setObj(nuevoObj)
+        setRel(true)
+    }
+
+    const crearProyecto = (e) => {
+        e.preventDefault()
+
+        const fd = new FormData(form.current)
+        const nuevoObjetivo = {}
+        fd.forEach((value, key) => {
+            nuevoObjetivo[key] = value
+        })
+
+        const nuevoObj = obj
+        nuevoObj[nuevoObj.length - 1] = nuevoObjetivo
+        setObj(nuevoObj)
+
+        const nombre = obj[0].nombre
+        console.log(nombre)
+        const presupuesto = obj[0].presupuesto
+        obj.forEach(objt => { delete objt.nombre; delete objt.presupuesto })
+
+        creacionProyecto({
+            variables: {
+                'nombre': nombre,
+                'presupuesto': parseFloat(presupuesto),
+                lider: userData._id,
+                objetivos: obj
+            }
+        })
+        window.location.reload()
+        toast.success("Proyecto registrado exitosamente")
+    }
+
     return (
-        <div class="bg-white w-full rounded">
-        <h3 class= "text-2xl font-bold leading-7 text-center p-8">NUEVO PROYECTO</h3>
-        <div class="md:flex items-center mt-12">
-                <div class="w-full md:w-1/2 flex flex-col md:ml-6">
-                    <label class="font-semibold leading-none">ID Proyecto</label>
-                    <input type="text" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200" />
+        <div>
+            <h3 className="text-2xl font-bold leading-7 text-center p-8">NUEVO PROYECTO</h3>
+            <form ref={form} onSubmit={agregarObjetivo}>
+                <Input name='nombre' type='text' label='Nombre del proyecto' />
+                <Input name='presupuesto' type='number' label='Presupuesto' />
+                {
+                    obj.map(obj => {
+                        return (
+                            <div className='flex flex-col'>
+                                <div className='flex flex-row items-center mb-2'>
+                                    <Objetivos sel='tipo' inp='descripcion' />
+                                    <button type='submit'>
+                                        <img src={plus} alt='' className='h-8 ml-3' />
+                                    </button>
+                                </div>
+                            </div>
+                        )
+                    })
+                }
+                <div className='flex flex-col items-end my-2'>
                 </div>
-                <div class="w-full md:w-1/2 flex flex-col ml-6 mr-6">
-                    <label class="font-semibold leading-none">Nombre Proyecto</label>
-                    <input type="email" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
-                </div>
-        </div>
-        <div class="md:flex items-center mt-12">
-            <div class="w-full flex flex-col mt-8 ml-6 mr-6">
-                <label class="font-semibold leading-none">Objetivos Generales</label>
-                <textarea type="text" class="h-40 text-base leading-none text-gray-900 p-3 focus:oultine-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"></textarea>
+            </form>
+            <div className='flex justify-end mb-3'>
+                <button type='submit' onClick={(e) => { crearProyecto(e) }} className='border-1 bg-blue-800 p-2 text-blue-50 font-semibold rounded'>
+                    Guardar
+                </button>
             </div>
-            <div class="w-full flex flex-col mt-8 ml-6 mr-6">
-                <label class="font-semibold leading-none">Objetivos Especificos</label>
-                <textarea type="text" class="h-40 text-base leading-none text-gray-900 p-3 focus:oultine-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"></textarea>
-            </div>
+            <ToastContainer />
         </div>
-        <div class="flex items-center justify-center w-full">
-            <button class="mt-9 font-semibold leading-none text-white py-4 px-10 bg-gray-800 rounded hover:bg-gray-600 transition ease-in duration-700 focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 focus:outline-none">
-                 Guardar Proyecto
-            </button>
-        </div>    
-   </div>
-
-
-
     )
 }
 

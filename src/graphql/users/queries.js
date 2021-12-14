@@ -24,7 +24,22 @@ query Usuarios(
     estado
   }
 }
-
 `;
 
-export { GET_USUARIOS };
+const GET_USERPROJECTS = gql`
+query Usuario(
+  $id: String!
+) {
+  Usuario(_id: $id) {
+    inscripciones {
+      estado
+      proyecto {
+        _id
+        nombre
+      }
+    }
+  }
+}
+`
+
+export { GET_USUARIOS, GET_USERPROJECTS };

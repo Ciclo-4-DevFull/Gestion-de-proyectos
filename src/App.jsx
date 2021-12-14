@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import Inicio from 'pages/Inicio';
 import RegistroProyecto from 'pages/proyectos/RegistroProyecto';
-import Solicitudes from 'pages/usuarios/Solicitudes';
+import Usuarios from 'pages/usuarios/Usuarios';
 import MisProyectos from 'pages/proyectos/MisProyectos';
 import Detalle from 'pages/proyectos/Detalle';
 import ActualizarInfo from 'pages/usuarios/ActualizarInfo';
@@ -78,7 +78,7 @@ function App() {
         <UserContext.Provider value={{ userData, setUserData }}>
           <Router>
             <Switch>
-              <Route path={['/bienvenida', '/registro-proyecto', '/mis-proyectos', '/detalle-proyecto', '/solicitudes', '/actualizar-info', '/busca-proyecto']}>
+              <Route path={['/bienvenida', '/registro-proyecto', '/mis-proyectos', '/detalle-proyecto', '/usuarios', '/actualizar-info', '/busca-proyecto']}>
                 <PrivateLayout>
                   <Switch>
                     <Route path='/bienvenida'>
@@ -93,8 +93,8 @@ function App() {
                     <Route path='/detalle-proyecto/:idproject'>
                       <Detalle />
                     </Route>
-                    <Route path='/solicitudes'>
-                      <Solicitudes />
+                    <Route path='/usuarios'>
+                      <Usuarios />
                     </Route>
                     <Route path='/actualizar-info'>
                       <ActualizarInfo />
