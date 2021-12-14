@@ -31,6 +31,10 @@ const Detalle = () => {
     const [avances, setAvances] = useState([])
     const [inscripciones, setInscripciones] = useState([])
 
+    const sleep = (milliseconds) => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
+
     const { data: queryData, error: queryError, loading: queryLoading } = useQuery(GET_PROJECTS, {
         variables: {
             id: "61b05e0e097ea0203f1ba914"
@@ -49,6 +53,9 @@ const Detalle = () => {
             }
         })
         toast.success('Operación realizada con éxito')
+        sleep(5000).then(r => {
+            window.location.reload()
+      	})
     }
 
     const rechazar = (inscripcion) => {
@@ -58,6 +65,9 @@ const Detalle = () => {
             }
         })
         toast.success('Operación realizada con éxito')
+        sleep(5000).then(r => {
+            window.location.reload()
+      	})
     }
 
     useEffect(() => {
