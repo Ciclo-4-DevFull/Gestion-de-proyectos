@@ -9,6 +9,7 @@ import menu from 'media/menu.ico'
 import { useState } from 'react';
 import { Link } from 'react-router-dom'
 import { useAuth } from 'context/AuthContext';
+import { useUser } from 'context/UserContext';
 
 const Sidebar = () => {
 
@@ -24,6 +25,7 @@ const Sidebar = () => {
 const Opciones = ({ barra, setBarra }) => {
 
     const { setToken } = useAuth();
+    const { userData } = useUser()
 
     return (
         <div className='flex flex-col w-1/4 bg-gray-800 py-0.5 px-3 rounded-r'>
@@ -44,9 +46,12 @@ const Opciones = ({ barra, setBarra }) => {
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails className='flex flex-col items-start'>
-                    <Link to='/usuarios' className='no-underline text-gray-800' >
-                        <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Usuarios</Typography>
-                    </Link>
+                    {
+                        userData.rol !== 'ESTUDIANTE' &&
+                        <Link to='/usuarios' className='no-underline text-gray-800' >
+                            <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Usuarios</Typography>
+                        </Link>
+                    }
                     <Link to='/actualizar-info' className='no-underline text-gray-800'>
                         <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Actualizar información</Typography>
                     </Link>
@@ -62,9 +67,13 @@ const Opciones = ({ barra, setBarra }) => {
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails className='flex flex-col items-start'>
-                    <Link to='/registro-proyecto' className='no-underline text-gray-800'>
-                        <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Registrar proyecto</Typography>
-                    </Link>
+                    {
+                        userData.rol === 'LIDER' &&
+                        <Link to='/registro-proyecto' className='no-underline text-gray-800'>
+                            <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Registrar proyecto</Typography>
+                        </Link>
+
+                    }
                     <Link to='/mis-proyectos' className='no-underline text-gray-800'>
                         <Typography className='cursor-pointer hover:text-blue-900 py-0.5'>Mis proyectos</Typography>
                     </Link>

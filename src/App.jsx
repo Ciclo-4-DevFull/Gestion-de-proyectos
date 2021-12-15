@@ -19,6 +19,7 @@ import { AuthContext } from 'context/AuthContext';
 import { useState, useEffect } from 'react';
 import jwtDecode from 'jwt-decode';
 import { UserContext } from 'context/UserContext';
+import PrivateRoute from 'components/PrivateRoute';
 
 //https://servidor-gestion-proyectos.herokuapp.com/graphql
 
@@ -68,7 +69,6 @@ function App() {
         rol: decoded.rol,
         estado: decoded.estado
       });
-      //console.log(userData)
     };
   }, [authToken])
 
@@ -85,7 +85,9 @@ function App() {
                       <Inicio />
                     </Route>
                     <Route path='/registro-proyecto'>
-                      <RegistroProyecto />
+                      <PrivateRoute roleList={['LIDER']}>
+                        <RegistroProyecto />
+                      </PrivateRoute>
                     </Route>
                     <Route path='/mis-proyectos'>
                       <MisProyectos />
@@ -94,7 +96,9 @@ function App() {
                       <Detalle />
                     </Route>
                     <Route path='/usuarios'>
-                      <Usuarios />
+                      <PrivateRoute roleList={['ADMINISTRADOR', 'LIDER']}>
+                        <Usuarios />
+                      </PrivateRoute>
                     </Route>
                     <Route path='/actualizar-info'>
                       <ActualizarInfo />

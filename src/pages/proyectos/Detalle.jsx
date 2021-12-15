@@ -17,6 +17,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import ReactLoading from 'react-loading';
 import { useParams } from 'react-router-dom'
 import { GET_USUARIOS } from 'graphql/users/queries'
+import { useUser } from 'context/UserContext'
 
 const Detalle = () => {
 
@@ -32,6 +33,7 @@ const Detalle = () => {
     const [idestudiante, setIdestudiante] = useState([])
     const [usuarios, setUsuarios] = useState([])
     const [userdef, setUserdef] = useState([])
+    const { userData } = useUser()
 
     const { data: queryData, error: queryError, loading: queryLoading } = useQuery(GET_PROJECTS, {
         variables: {
@@ -98,12 +100,27 @@ const Detalle = () => {
                         <AccordionDetails>
                             <hr style={{ border: '15px', display: 'flex' }} />
                             <ul className="grid grid-cols-3 gap-4">
-                                <li><b>Nombre del proyecto:</b> <div className='flex flex-row'><span>{proyectos.nombre}</span> <button onClick={() => { setOpen(true) }}><img src={edit} alt='' className='h-4 pl-4' /></button></div></li>
-                                <li><b>Estado:</b> <div><span>{proyectos.estado}</span></div></li>
+                                <li><b>Nombre del proyecto:</b>
+                                    <div className='flex flex-row'><span>{proyectos.nombre}</span>
+                                        {
+                                            userData.rol === 'LIDER' &&
+                                            <button onClick={() => { setOpen(true) }}><img src={edit} alt='' className='h-4 pl-4' />
+                                            </button>
+                                        }
+                                    </div>
+                                </li>
+                                <li><b>Estado:</b><div><span>{proyectos.estado}</span></div></li>
                                 <li><b>Lider:</b> <div><span></span></div>{lider.nombre} {lider.apellido}</li>
                                 <li><b>Fecha inicio:</b> <div><span>{proyectos.inicio}</span></div></li>
                                 <li><b>Fecha finalización:</b> <div><span>{proyectos.fin}</span></div></li>
-                                <li><b>Presupuesto:</b> <div className='flex flex-row'><span>{proyectos.presupuesto}</span><button onClick={() => { setOpen(true) }}><img src={edit} alt='' className='h-4 pl-4' /></button></div></li>
+                                <li><b>Presupuesto:</b>
+                                    <div className='flex flex-row'><span>{proyectos.presupuesto}</span>
+                                        {
+                                            userData.rol == 'LIDER' &&
+                                            <button onClick={() => { setOpen(true) }}><img src={edit} alt='' className='h-4 pl-4' /></button>
+                                        }
+                                    </div>
+                                </li>
                             </ul>
                             <hr style={{ border: '15px', display: 'flex' }} />
                         </AccordionDetails>
@@ -131,10 +148,12 @@ const Detalle = () => {
                                             <tr>
                                                 <td>{objetivo.tipo}</td>
                                                 <td>{objetivo.descripcion}</td>
-                                                <td>
+                                                <td>{
+                                                    userData.rol === 'LIDER' &&
                                                     <button onClick={() => { setOpen(true) }}>
                                                         <img src={edit} alt='' className='h-4' />
                                                     </button>
+                                                }
                                                 </td>
                                             </tr>
                                         )
@@ -173,20 +192,29 @@ const Detalle = () => {
                                                 <td>{avance.fecha}</td>
                                                 <td>{avance.descripcion}</td>
                                                 <td>
-                                                    <button onClick={() => { setOpen(true) }}>
-                                                        <img src={edit} alt='' title='Editar avance' className='h-4' />
-                                                    </button>
+                                                    {
+                                                        userData.rol === 'ESTUDIANTE' &&
+                                                        <button onClick={() => { setOpen(true) }}>
+                                                            <img src={edit} alt='' title='Editar avance' className='h-4' />
+                                                        </button>
+                                                    }
                                                 </td>
                                                 <td>{avance.observaciones}</td>
                                                 <td>
-                                                    <button onClick={() => { setOpen(true) }}>
-                                                        <img src={edit} alt='' title='Editar observación' className='h-4' />
-                                                    </button>
+                                                    {
+                                                        userData.rol === 'LIDER' &&
+                                                        <button onClick={() => { setOpen(true) }}>
+                                                            <img src={edit} alt='' title='Editar observación' className='h-4' />
+                                                        </button>
+                                                    }
                                                 </td>
                                                 <td>
-                                                    <button onClick={() => { setOpen(true) }}>
-                                                        <img src={plus} alt='' title='Agregar observación' className='h-5' />
-                                                    </button>
+                                                    {
+                                                        userData.rol === 'LIDER' &&
+                                                        <button onClick={() => { setOpen(true) }}>
+                                                            <img src={plus} alt='' title='Agregar observación' className='h-5' />
+                                                        </button>
+                                                    }
                                                 </td>
                                             </tr>
                                         )
@@ -198,63 +226,66 @@ const Detalle = () => {
                             <button className='mr-2 bg-green-700 rounded px-2 py-1 text-white font-semibold'>Nuevo avance</button>
                         </AccordionDetails>
                     </Accordion>
-                    <Accordion>
-                        <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel2a-content"
-                            id="panel2a-header"
-                        >
-                            <Typography>Inscripciones</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <hr style={{ border: '15px', display: 'flex' }} />
-                            <Table hover borderless className='my-1 table-auto'>
-                                <thead>
-                                    <tr>
-                                        <th width='25%'>Fecha ingreso</th>
-                                        <th width='35%'>Estudiante</th>
-                                        <th width='20%'>Estado</th>
-                                        <th width='5%'></th>
-                                        <th width='8%'></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>11/12/2021</td>
-                                        <td>Simón Suárez</td>
-                                        <td>Pendiente</td>
-                                        <td>
-                                            <button onClick={() => { setOpen(true) }}>
-                                                <img src={check} alt='' title='Aprobar' className='h-5' />
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button onClick={() => { setOpen(true) }}>
-                                                <img src={denied} alt='' title='No aprobar' className='h-4' />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>12/12/2021</td>
-                                        <td>Teresa Machado</td>
-                                        <td>Aceptado</td>
-                                        <td>
-                                            <button onClick={() => { setOpen(true) }}>
-                                                <img src={check} alt='' title='Aprobar' className='h-5' />
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button onClick={() => { setOpen(true) }}>
-                                                <img src={denied} alt='' title='No aprobar' className='h-4' />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </Table>
-                            <hr style={{ border: '15px', display: 'flex' }} />
-                            <Descripcion open={open} setOpen={setOpen} />
-                        </AccordionDetails>
-                    </Accordion>
+                    {
+                        userData.rol === 'LIDER' &&
+                        <Accordion>
+                            <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel2a-content"
+                                id="panel2a-header"
+                            >
+                                <Typography>Inscripciones</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <hr style={{ border: '15px', display: 'flex' }} />
+                                <Table hover borderless className='my-1 table-auto'>
+                                    <thead>
+                                        <tr>
+                                            <th width='25%'>Fecha ingreso</th>
+                                            <th width='35%'>Estudiante</th>
+                                            <th width='20%'>Estado</th>
+                                            <th width='5%'></th>
+                                            <th width='8%'></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>11/12/2021</td>
+                                            <td>Simón Suárez</td>
+                                            <td>Pendiente</td>
+                                            <td>
+                                                <button onClick={() => { setOpen(true) }}>
+                                                    <img src={check} alt='' title='Aprobar' className='h-5' />
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button onClick={() => { setOpen(true) }}>
+                                                    <img src={denied} alt='' title='No aprobar' className='h-4' />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>12/12/2021</td>
+                                            <td>Teresa Machado</td>
+                                            <td>Aceptado</td>
+                                            <td>
+                                                <button onClick={() => { setOpen(true) }}>
+                                                    <img src={check} alt='' title='Aprobar' className='h-5' />
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button onClick={() => { setOpen(true) }}>
+                                                    <img src={denied} alt='' title='No aprobar' className='h-4' />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </Table>
+                                <hr style={{ border: '15px', display: 'flex' }} />
+                                <Descripcion open={open} setOpen={setOpen} />
+                            </AccordionDetails>
+                        </Accordion>
+                    }
                 </div>
             </div>
         </div>
