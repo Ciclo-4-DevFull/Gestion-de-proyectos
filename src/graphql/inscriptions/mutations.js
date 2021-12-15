@@ -21,6 +21,7 @@ const APROBAR_INSCRIPCION = gql`
 mutation AprobarInscripcion($id: String!) {
   aprobarInscripcion(_id: $id) {
     _id
+    estado
   }
 }
 `
@@ -29,6 +30,7 @@ const RECHAZAR_INSCRIPCION = gql`
 mutation RechazarInscripcion($id: String!) {
   rechazarInscripcion(_id: $id) {
     _id
+    estado
   }
 }
 `

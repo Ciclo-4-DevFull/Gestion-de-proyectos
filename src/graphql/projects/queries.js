@@ -26,6 +26,7 @@ query Proyectos(
       correo
     }
     objetivos {
+      _id
       descripcion
       tipo
     }

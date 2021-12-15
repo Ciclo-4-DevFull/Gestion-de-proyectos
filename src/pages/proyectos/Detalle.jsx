@@ -23,7 +23,6 @@ import { EDITAR_PROYECTO } from 'graphql/projects/mutations'
 const Detalle = () => {
 
     let params = useParams();
-    console.log("params", params)
 
     const [open, setOpen] = useState(false)
     const [proyectos, setProyectos] = useState([])
@@ -32,6 +31,7 @@ const Detalle = () => {
     const [avances, setAvances] = useState([])
     const [inscripciones, setInscripciones] = useState([])
     const [tipo, setTipo] = useState("")
+    const [idobjetivo, setIdobjetivo] = useState("")
 
     const sleep = (milliseconds) => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -57,9 +57,6 @@ const Detalle = () => {
             }
         })
         toast.success('Operación realizada con éxito')
-        sleep(5000).then(r => {
-            window.location.reload()
-      	})
     }
 
     const rechazar = (inscripcion) => {
@@ -69,9 +66,6 @@ const Detalle = () => {
             }
         })
         toast.success('Operación realizada con éxito')
-        sleep(5000).then(r => {
-            window.location.reload()
-      	})
     }
 
     useEffect(() => {
@@ -140,7 +134,7 @@ const Detalle = () => {
                                                 <td>{objetivo.tipo}</td>
                                                 <td>{objetivo.descripcion}</td>
                                                 <td>
-                                                    <button onClick={() => { setOpen(true) }}>
+                                                    <button onClick={() => { setOpen(true); setTipo("objetivo"); setIdobjetivo(objetivo._id)}}>
                                                         <img src={edit} alt='' className='h-4' />
                                                     </button>
                                                 </td>
@@ -249,7 +243,7 @@ const Detalle = () => {
                                 </tbody>
                             </Table>
                             <hr style={{ border: '15px', display: 'flex' }} />
-                            <Descripcion open={open} setOpen={setOpen} proyecto={proyectos} tipo={tipo} />
+                            <Descripcion open={open} setOpen={setOpen} proyecto={proyectos} tipo={tipo} idobjetivo={idobjetivo} />
                         </AccordionDetails>
                     </Accordion>
                 </div>
@@ -262,8 +256,8 @@ const Descripcion = (props) => {
 
     const [nombre, setNombre] = useState("")
     const [presupuesto, setPresupuesto] = useState(0)
+    const [descripcion, setDescripcion] = useState("")
     const [editarProyecto] = useMutation(EDITAR_PROYECTO)
-    
     
     const modificar = () => {
         console.log(props.tipo)
@@ -287,14 +281,44 @@ const Descripcion = (props) => {
                     presupuesto: parseFloat(presupuesto)
                 }
             })
+        } else if (props.tipo === "objetivo"){
+            var filtro = props.proyecto.objetivos.filter(objetivo => objetivo._id === props.idobjetivo)
+            
+            var objmodificado = [{
+                tipo: filtro[0].tipo,
+                descripcion: descripcion
+            }]
+            
+            var nofiltro = props.proyecto.objetivos.filter(objetivo => objetivo._id !== props.idobjetivo)
+            
+            var miNuevo = []
+            for (var i = 0; i < nofiltro.length; i++){
+                miNuevo[i] = {"tipo": nofiltro[i].tipo, "descripcion": nofiltro[i].descripcion}
+            }
+
+            if(filtro[0].tipo === "GENERAL"){
+                objmodificado = objmodificado.concat(miNuevo)
+            } else {
+                objmodificado = miNuevo.concat(objmodificado)
+            }
+            
+            
+            editarProyecto({
+                variables: {
+                    id: props.proyecto._id,
+                    objetivos: objmodificado
+                }
+            })
+
         }
         toast.success('Operación realizada con éxito')
     }
 
     const miFuncion = (e) => {
         props.tipo === "nombre" ?
-        setNombre(e):
-        setPresupuesto(e)
+            setNombre(e)
+            : props.tipo === "presupuesto" ? setPresupuesto(e)
+            : setDescripcion(e)
     } 
 
     return (

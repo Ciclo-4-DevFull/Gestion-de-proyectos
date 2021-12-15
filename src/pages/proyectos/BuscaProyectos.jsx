@@ -38,7 +38,7 @@ const BuscaProyectos = () => {
             })
         }
         toast.success("Proyecto actualizado exitosamente")
-        window.location.reload()
+        //window.location.reload()
     }
 
     const cambiarFase = (proyecto, nuevo) => {
