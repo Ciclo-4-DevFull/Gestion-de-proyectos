@@ -19,6 +19,7 @@ import { useParams } from 'react-router-dom'
 import { APROBAR_INSCRIPCION } from 'graphql/inscriptions/mutations'
 import { RECHAZAR_INSCRIPCION } from 'graphql/inscriptions/mutations'
 import { EDITAR_PROYECTO } from 'graphql/projects/mutations'
+import { EDIT_AVANCE } from 'graphql/projects/mutations'
 
 const Detalle = () => {
 
@@ -32,6 +33,7 @@ const Detalle = () => {
     const [inscripciones, setInscripciones] = useState([])
     const [tipo, setTipo] = useState("")
     const [idobjetivo, setIdobjetivo] = useState("")
+    const [idavance, setIdavance] = useState("")
 
     const sleep = (milliseconds) => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -175,7 +177,7 @@ const Detalle = () => {
                                                 <td>{avance.fecha}</td>
                                                 <td>{avance.descripcion}</td>
                                                 <td>
-                                                    <button onClick={() => { setOpen(true) }}>
+                                                    <button onClick={() => { setOpen(true); setTipo("avance"); setIdavance(avance._id) }}>
                                                         <img src={edit} alt='' title='Editar avance' className='h-4' />
                                                     </button>
                                                 </td>
@@ -243,7 +245,7 @@ const Detalle = () => {
                                 </tbody>
                             </Table>
                             <hr style={{ border: '15px', display: 'flex' }} />
-                            <Descripcion open={open} setOpen={setOpen} proyecto={proyectos} tipo={tipo} idobjetivo={idobjetivo} />
+                            <Descripcion open={open} setOpen={setOpen} proyecto={proyectos} tipo={tipo} idobjetivo={idobjetivo} idavance={idavance} />
                         </AccordionDetails>
                     </Accordion>
                 </div>
@@ -257,7 +259,9 @@ const Descripcion = (props) => {
     const [nombre, setNombre] = useState("")
     const [presupuesto, setPresupuesto] = useState(0)
     const [descripcion, setDescripcion] = useState("")
+    const [avance, setAvance] = useState("")
     const [editarProyecto] = useMutation(EDITAR_PROYECTO)
+    const [editarAvance] = useMutation(EDIT_AVANCE)
     
     const modificar = () => {
         console.log(props.tipo)
@@ -310,7 +314,26 @@ const Descripcion = (props) => {
                 }
             })
 
+        } else if (props.tipo === "avance"){
+            var filtroava = props.proyecto.avances.filter(avance => avance._id === props.idavance)
+            var avamodificado = [{
+                _id: filtroava[0]._id,
+                descripcion: avance
+            }]
+            // var nofiltroava = props.proyecto.avances.filter(avance => avance._id !== props.idavance)
+            // avamodificado = nofiltroava.concat(avamodificado)
+            
+            console.log(avamodificado[0])
+            editarAvance({
+                variables: {
+                    id: avamodificado[0]._id,
+                    descripcion: avamodificado[0].descripcion
+                }
+            })
+
         }
+
+
         toast.success('Operación realizada con éxito')
     }
 
@@ -318,7 +341,8 @@ const Descripcion = (props) => {
         props.tipo === "nombre" ?
             setNombre(e)
             : props.tipo === "presupuesto" ? setPresupuesto(e)
-            : setDescripcion(e)
+            : props.tipo === "objetivo" ? setDescripcion(e)
+            : setAvance(e)
     } 
 
     return (

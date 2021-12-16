@@ -31,6 +31,7 @@ query Proyectos(
       tipo
     }
     avances {
+      _id
       fecha
       descripcion
       creadoPor {
