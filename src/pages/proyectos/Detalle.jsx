@@ -363,7 +363,7 @@ const Descripcion = (props) => {
     return (
         <Dialog open={props.open}>
             <div className='flex flex-col m-4'>
-                <h5 className='mt-3 text-center'>Editar campo</h5>
+                <h5 className='mt-3 text-center'>{props.tipo === "nuevoAvance" ? <>Nuevo avance</> : <>Editar campo</>}</h5>
                 <input className='form-control' onChange={(e) => {miFuncion(e.target.value)}}/>
                 <div className='flex flex-row justify-end mt-2'>
                     <button className='mr-2 bg-green-700 rounded px-2 py-1 text-white font-semibold' onClick={() => {modificar(props.proyecto)}}>Aceptar</button>
