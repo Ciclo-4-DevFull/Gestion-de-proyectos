@@ -63,6 +63,26 @@ mutation CrearProyecto(
 }
 `
 
+const CREATE_AVANCE = gql`
+mutation CrearAvance(
+  $fecha: Date!, 
+  $descripcion: String!, 
+  $proyecto: String!, 
+  $creadoPor: String!
+  ) {
+  crearAvance(
+    fecha: $fecha, 
+    descripcion: $descripcion, 
+    proyecto: $proyecto, 
+    creadoPor: $creadoPor) {
+    _id
+    fecha
+    descripcion
+    observaciones
+  }
+}
+`
+
 const EDIT_AVANCE = gql`
 mutation ModificarAvance(
   $id: String!, 
@@ -78,4 +98,4 @@ mutation ModificarAvance(
 }
 `
 
-export { CAMBIAR_ESTADO, CREATE_PROJECT, EDITAR_PROYECTO, EDIT_AVANCE };
+export { CAMBIAR_ESTADO, CREATE_PROJECT, EDITAR_PROYECTO, CREATE_AVANCE, EDIT_AVANCE };

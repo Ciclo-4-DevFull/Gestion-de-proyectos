@@ -4,7 +4,6 @@ import edit from 'media/edit.png'
 import plus from 'media/plus.png'
 import { Dialog } from '@mui/material'
 import { toast, ToastContainer } from 'react-toastify'
-import Input from 'components/Input'
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -20,6 +19,8 @@ import { APROBAR_INSCRIPCION } from 'graphql/inscriptions/mutations'
 import { RECHAZAR_INSCRIPCION } from 'graphql/inscriptions/mutations'
 import { EDITAR_PROYECTO } from 'graphql/projects/mutations'
 import { EDIT_AVANCE } from 'graphql/projects/mutations'
+import { CREATE_AVANCE } from 'graphql/projects/mutations'
+import { useUser } from 'context/UserContext'
 
 const Detalle = () => {
 
@@ -35,9 +36,7 @@ const Detalle = () => {
     const [idobjetivo, setIdobjetivo] = useState("")
     const [idavance, setIdavance] = useState("")
 
-    const sleep = (milliseconds) => {
-        return new Promise(resolve => setTimeout(resolve, milliseconds))
-    }
+    
 
     const { data: queryData, error: queryError, loading: queryLoading } = useQuery(GET_PROJECTS, {
         variables: {
@@ -199,7 +198,7 @@ const Detalle = () => {
                             </Table>
                             <hr style={{ border: '15px', display: 'flex' }} />
                             <Descripcion open={open} setOpen={setOpen} />
-                            <button className='mr-2 bg-green-700 rounded px-2 py-1 text-white font-semibold'>Nuevo avance</button>
+                            <button className='mr-2 bg-green-700 rounded px-2 py-1 text-white font-semibold' onClick={() => { setOpen(true); setTipo("nuevoAvance")}}>Nuevo avance</button>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
@@ -260,8 +259,15 @@ const Descripcion = (props) => {
     const [presupuesto, setPresupuesto] = useState(0)
     const [descripcion, setDescripcion] = useState("")
     const [avance, setAvance] = useState("")
+    const [nuevoAvance, setNuevoAvance] = useState("")
     const [editarProyecto] = useMutation(EDITAR_PROYECTO)
     const [editarAvance] = useMutation(EDIT_AVANCE)
+    const [crearAvance] = useMutation(CREATE_AVANCE)
+    const { userData } = useUser()
+
+    const sleep = (milliseconds) => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
     
     const modificar = () => {
         console.log(props.tipo)
@@ -319,11 +325,7 @@ const Descripcion = (props) => {
             var avamodificado = [{
                 _id: filtroava[0]._id,
                 descripcion: avance
-            }]
-            // var nofiltroava = props.proyecto.avances.filter(avance => avance._id !== props.idavance)
-            // avamodificado = nofiltroava.concat(avamodificado)
-            
-            console.log(avamodificado[0])
+            }]            
             editarAvance({
                 variables: {
                     id: avamodificado[0]._id,
@@ -331,6 +333,18 @@ const Descripcion = (props) => {
                 }
             })
 
+        } else if (props.tipo === "nuevoAvance"){
+            crearAvance({
+                variables: {
+                    fecha: Date.now(),
+                    descripcion: nuevoAvance,
+                    proyecto: props.proyecto._id,
+                    creadoPor: userData._id
+                }
+            })
+            sleep(3000).then(r => {
+                window.location.reload()
+              })
         }
 
 
@@ -342,7 +356,8 @@ const Descripcion = (props) => {
             setNombre(e)
             : props.tipo === "presupuesto" ? setPresupuesto(e)
             : props.tipo === "objetivo" ? setDescripcion(e)
-            : setAvance(e)
+            : props.tipo === "avance" ? setAvance(e)
+            : setNuevoAvance(e)
     } 
 
     return (
