@@ -20,6 +20,7 @@ import { RECHAZAR_INSCRIPCION } from 'graphql/inscriptions/mutations'
 import { EDITAR_PROYECTO } from 'graphql/projects/mutations'
 import { EDIT_AVANCE } from 'graphql/projects/mutations'
 import { CREATE_AVANCE } from 'graphql/projects/mutations'
+import { CREATE_OBSERVACION } from 'graphql/projects/mutations'
 import { useUser } from 'context/UserContext'
 
 const Detalle = () => {
@@ -83,7 +84,7 @@ const Detalle = () => {
     }, [queryData, setProyectos, queryError, inscripciones])
 
     if (queryLoading) return <ReactLoading type={'spokes'} color={'#95CCBB'} heigth={'10%'} width={'10%'} className='py-40' />
-
+    console.log(avances)
     return (
         <div>
             <ToastContainer />
@@ -161,11 +162,10 @@ const Detalle = () => {
                             <Table hover borderless className='my-1 table-auto'>
                                 <thead>
                                     <tr>
-                                        <th width='20%'>Fecha</th>
-                                        <th width='35%'>Avance</th>
+                                        <th width='35%'>Fecha</th>
+                                        <th width='32%'>Avance</th>
                                         <th ></th>
                                         <th width='25%'>Observaciones</th>
-                                        <th width='5%'></th>
                                         <th width='8%'></th>
                                     </tr>
                                 </thead>
@@ -181,16 +181,19 @@ const Detalle = () => {
                                                     </button>
                                                 </td>
                                                 <td>{avance.observaciones}</td>
+                                                {
+                                                avance.observaciones[0] !== "" ? 
                                                 <td>
-                                                    <button onClick={() => { setOpen(true) }}>
+                                                    <button onClick={() => { setOpen(true); setTipo("editarObservacion"); setIdavance(avance._id) }}>
                                                         <img src={edit} alt='' title='Editar observación' className='h-4' />
                                                     </button>
-                                                </td>
+                                                </td> :
                                                 <td>
-                                                    <button onClick={() => { setOpen(true) }}>
+                                                    <button onClick={() => { setOpen(true); setTipo("agregarObservacion"); setIdavance(avance._id) }}>
                                                         <img src={plus} alt='' title='Agregar observación' className='h-5' />
                                                     </button>
                                                 </td>
+                                                }
                                             </tr>
                                         )
                                     })}
@@ -260,9 +263,11 @@ const Descripcion = (props) => {
     const [descripcion, setDescripcion] = useState("")
     const [avance, setAvance] = useState("")
     const [nuevoAvance, setNuevoAvance] = useState("")
+    const [nuevaObservacion, setNuevaObservacion] = useState("")
     const [editarProyecto] = useMutation(EDITAR_PROYECTO)
     const [editarAvance] = useMutation(EDIT_AVANCE)
     const [crearAvance] = useMutation(CREATE_AVANCE)
+    const [crearObservacion] = useMutation(CREATE_OBSERVACION)
     const { userData } = useUser()
 
     const sleep = (milliseconds) => {
@@ -339,12 +344,28 @@ const Descripcion = (props) => {
                     fecha: Date.now(),
                     descripcion: nuevoAvance,
                     proyecto: props.proyecto._id,
-                    creadoPor: userData._id
+                    creadoPor: userData._id,
+                    observaciones: [""]
                 }
             })
             sleep(3000).then(r => {
                 window.location.reload()
               })
+
+        } else if (props.tipo === "agregarObservacion"){
+            crearObservacion({
+                variables: {
+                    id: props.idavance,
+                    observaciones: nuevaObservacion
+                }
+            })
+        } else if (props.tipo === "editarObservacion"){
+            crearObservacion({
+                variables: {
+                    id: props.idavance,
+                    observaciones: nuevaObservacion
+                }
+            })
         }
 
 
@@ -357,13 +378,14 @@ const Descripcion = (props) => {
             : props.tipo === "presupuesto" ? setPresupuesto(e)
             : props.tipo === "objetivo" ? setDescripcion(e)
             : props.tipo === "avance" ? setAvance(e)
-            : setNuevoAvance(e)
+            : props.tipo === "nuevoAvance" ? setNuevoAvance(e)
+            : setNuevaObservacion(e)
     } 
 
     return (
         <Dialog open={props.open}>
             <div className='flex flex-col m-4'>
-                <h5 className='mt-3 text-center'>{props.tipo === "nuevoAvance" ? <>Nuevo avance</> : <>Editar campo</>}</h5>
+                <h5 className='mt-3 text-center'>{props.tipo === "nuevoAvance" ? <>Nuevo avance</> : props.tipo === "agregarObservacion" ? <>Agregar observación</> : <>Editar campo</>}</h5>
                 <input className='form-control' onChange={(e) => {miFuncion(e.target.value)}}/>
                 <div className='flex flex-row justify-end mt-2'>
                     <button className='mr-2 bg-green-700 rounded px-2 py-1 text-white font-semibold' onClick={() => {modificar(props.proyecto)}}>Aceptar</button>

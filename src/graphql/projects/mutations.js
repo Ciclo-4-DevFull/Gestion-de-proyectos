@@ -98,4 +98,20 @@ mutation ModificarAvance(
 }
 `
 
-export { CAMBIAR_ESTADO, CREATE_PROJECT, EDITAR_PROYECTO, CREATE_AVANCE, EDIT_AVANCE };
+const CREATE_OBSERVACION = gql`
+mutation AgregarObservaciones(
+  $id: String!, 
+  $observaciones: String!
+  ) {
+  agregarObservaciones(
+    _id: $id, 
+    observaciones: $observaciones) 
+    {
+    _id
+    observaciones
+    descripcion
+  }
+}
+`
+
+export { CAMBIAR_ESTADO, CREATE_PROJECT, EDITAR_PROYECTO, CREATE_AVANCE, EDIT_AVANCE, CREATE_OBSERVACION };
