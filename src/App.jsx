@@ -21,10 +21,8 @@ import jwtDecode from 'jwt-decode';
 import { UserContext } from 'context/UserContext';
 import PrivateRoute from 'components/PrivateRoute';
 
-//https://servidor-gestion-proyectos.herokuapp.com/graphql
-
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: 'https://servidor-gestion-proyectos.herokuapp.com/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
