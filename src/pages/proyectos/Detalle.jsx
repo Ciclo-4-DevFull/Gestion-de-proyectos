@@ -201,7 +201,7 @@ const Detalle = () => {
                             </Table>
                             <hr style={{ border: '15px', display: 'flex' }} />
                             <Descripcion open={open} setOpen={setOpen} />
-                            <button className='mr-2 bg-green-700 rounded px-2 py-1 text-white font-semibold' onClick={() => { setOpen(true); setTipo("nuevoAvance")}}>Nuevo avance</button>
+                            <button className='mr-2 bg-green-700 rounded px-2 py-1 text-white font-semibold hover:bg-green-600' onClick={() => { setOpen(true); setTipo("nuevoAvance")}}>Nuevo avance</button>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
