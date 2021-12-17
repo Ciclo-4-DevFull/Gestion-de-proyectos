@@ -38,6 +38,7 @@ const Detalle = () => {
     const [idavance, setIdavance] = useState("")
 
     
+    const { userData } = useUser()
 
     const { data: queryData, error: queryError, loading: queryLoading } = useQuery(GET_PROJECTS, {
         variables: {
@@ -102,12 +103,27 @@ const Detalle = () => {
                         <AccordionDetails>
                             <hr style={{ border: '15px', display: 'flex' }} />
                             <ul className="grid grid-cols-3 gap-4">
-                                <li><b>Nombre del proyecto:</b> <div className='flex flex-row'><span>{proyectos.nombre}</span> <button onClick={() => { setOpen(true); setTipo("nombre") }}><img src={edit} alt='' className='h-4 pl-4' /></button></div></li>
-                                <li><b>Estado:</b> <div><span>{proyectos.estado}</span></div></li>
+                                <li><b>Nombre del proyecto:</b>
+                                    <div className='flex flex-row'><span>{proyectos.nombre}</span>
+                                        {
+                                            userData.rol === 'LIDER' &&
+                                            <button onClick={() => { setOpen(true); setTipo("nombre") }}><img src={edit} alt='' className='h-4 pl-4' />
+                                            </button>
+                                        }
+                                    </div>
+                                </li>
+                                <li><b>Estado:</b><div><span>{proyectos.estado}</span></div></li>
                                 <li><b>Lider:</b> <div><span></span></div>{lider.nombre} {lider.apellido}</li>
                                 <li><b>Fecha inicio:</b> <div><span>{proyectos.inicio}</span></div></li>
                                 <li><b>Fecha finalización:</b> <div><span>{proyectos.fin}</span></div></li>
-                                <li><b>Presupuesto:</b> <div className='flex flex-row'><span>{proyectos.presupuesto}</span><button onClick={() => { setOpen(true); setTipo("presupuesto") }}><img src={edit} alt='' className='h-4 pl-4' /></button></div></li>
+                                <li><b>Presupuesto:</b>
+                                    <div className='flex flex-row'><span>{proyectos.presupuesto}</span>
+                                        {
+                                            userData.rol === 'LIDER' &&
+                                            <button onClick={() => { setOpen(true); setTipo("presupuesto") }}><img src={edit} alt='' className='h-4 pl-4' /></button>
+                                        }
+                                    </div>
+                                </li>
                             </ul>
                             <hr style={{ border: '15px', display: 'flex' }} />
                         </AccordionDetails>
@@ -135,10 +151,12 @@ const Detalle = () => {
                                             <tr>
                                                 <td>{objetivo.tipo}</td>
                                                 <td>{objetivo.descripcion}</td>
-                                                <td>
-                                                    <button onClick={() => { setOpen(true); setTipo("objetivo"); setIdobjetivo(objetivo._id)}}>
+                                                <td>{
+                                                    userData.rol === 'LIDER' && 
+                                                    <button onClick={() => { setOpen(true); setTipo("objetivo"); setIdobjetivo(objetivo._id) }}>
                                                         <img src={edit} alt='' className='h-4' />
                                                     </button>
+                                                }
                                                 </td>
                                             </tr>
                                         )
@@ -175,24 +193,32 @@ const Detalle = () => {
                                             <tr>
                                                 <td>{avance.fecha}</td>
                                                 <td>{avance.descripcion}</td>
+                                                {
                                                 <td>
-                                                    <button onClick={() => { setOpen(true); setTipo("avance"); setIdavance(avance._id) }}>
-                                                        <img src={edit} alt='' title='Editar avance' className='h-4' />
-                                                    </button>
+                                                    {
+                                                        userData.rol === 'ESTUDIANTE' &&
+                                                        <button onClick={() => { setOpen(true); setTipo("avance"); setIdavance(avance._id) }}>
+                                                            <img src={edit} alt='' title='Editar avance' className='h-4' />
+                                                        </button>
+                                                    }
                                                 </td>
+                                                }
                                                 <td>{avance.observaciones}</td>
                                                 {
-                                                avance.observaciones[0] !== "" ? 
+                                                userData.rol === 'LIDER' && 
+                                                (avance.observaciones[0] !== "" ?
                                                 <td>
                                                     <button onClick={() => { setOpen(true); setTipo("editarObservacion"); setIdavance(avance._id) }}>
                                                         <img src={edit} alt='' title='Editar observación' className='h-4' />
                                                     </button>
                                                 </td> :
+                                                
                                                 <td>
                                                     <button onClick={() => { setOpen(true); setTipo("agregarObservacion"); setIdavance(avance._id) }}>
                                                         <img src={plus} alt='' title='Agregar observación' className='h-5' />
                                                     </button>
                                                 </td>
+                                                )
                                                 }
                                             </tr>
                                         )
@@ -204,6 +230,8 @@ const Detalle = () => {
                             <button className='mr-2 bg-green-700 rounded px-2 py-1 text-white font-semibold hover:bg-green-600' onClick={() => { setOpen(true); setTipo("nuevoAvance")}}>Nuevo avance</button>
                         </AccordionDetails>
                     </Accordion>
+                    {
+                    userData.rol === 'LIDER' &&
                     <Accordion>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
@@ -247,9 +275,10 @@ const Detalle = () => {
                                 </tbody>
                             </Table>
                             <hr style={{ border: '15px', display: 'flex' }} />
-                            <Descripcion open={open} setOpen={setOpen} proyecto={proyectos} tipo={tipo} idobjetivo={idobjetivo} idavance={idavance} />
                         </AccordionDetails>
                     </Accordion>
+                    }
+                    <Descripcion open={open} setOpen={setOpen} proyecto={proyectos} tipo={tipo} idobjetivo={idobjetivo} idavance={idavance} />
                 </div>
             </div>
         </div>
