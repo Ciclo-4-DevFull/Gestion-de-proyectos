@@ -36,8 +36,6 @@ const Detalle = () => {
     const [tipo, setTipo] = useState("")
     const [idobjetivo, setIdobjetivo] = useState("")
     const [idavance, setIdavance] = useState("")
-
-    
     const { userData } = useUser()
 
     const { data: queryData, error: queryError, loading: queryLoading } = useQuery(GET_PROJECTS, {
@@ -49,7 +47,7 @@ const Detalle = () => {
 
     const [editarInscripcion] = useMutation(APROBAR_INSCRIPCION)
     const [rechazarInscripcion] = useMutation(RECHAZAR_INSCRIPCION)
-    
+
 
 
 
@@ -152,7 +150,7 @@ const Detalle = () => {
                                                 <td>{objetivo.tipo}</td>
                                                 <td>{objetivo.descripcion}</td>
                                                 <td>{
-                                                    userData.rol === 'LIDER' && 
+                                                    userData.rol === 'LIDER' &&
                                                     <button onClick={() => { setOpen(true); setTipo("objetivo"); setIdobjetivo(objetivo._id) }}>
                                                         <img src={edit} alt='' className='h-4' />
                                                     </button>
@@ -180,10 +178,10 @@ const Detalle = () => {
                             <Table hover borderless className='my-1 table-auto'>
                                 <thead>
                                     <tr>
-                                        <th width='35%'>Fecha</th>
-                                        <th width='32%'>Avance</th>
-                                        <th ></th>
-                                        <th width='25%'>Observaciones</th>
+                                        <th width='20%'>Fecha</th>
+                                        <th width='30%'>Avance</th>
+                                        <th width='8%'></th>
+                                        <th width='35%'>Observaciones</th>
                                         <th width='8%'></th>
                                     </tr>
                                 </thead>
@@ -191,34 +189,32 @@ const Detalle = () => {
                                     {avances.map((avance) => {
                                         return (
                                             <tr>
-                                                <td>{avance.fecha}</td>
+                                                <td>{avance.fecha.slice(0, 10)}</td>
                                                 <td>{avance.descripcion}</td>
-                                                {
                                                 <td>
                                                     {
                                                         userData.rol === 'ESTUDIANTE' &&
-                                                        <button onClick={() => { setOpen(true); setTipo("avance"); setIdavance(avance._id) }}>
+                                                        (<button onClick={() => { setOpen(true); setTipo("avance"); setIdavance(avance._id) }}>
                                                             <img src={edit} alt='' title='Editar avance' className='h-4' />
-                                                        </button>
+                                                        </button>)
                                                     }
                                                 </td>
-                                                }
                                                 <td>{avance.observaciones}</td>
                                                 {
-                                                userData.rol === 'LIDER' && 
-                                                (avance.observaciones[0] !== "" ?
-                                                <td>
-                                                    <button onClick={() => { setOpen(true); setTipo("editarObservacion"); setIdavance(avance._id) }}>
-                                                        <img src={edit} alt='' title='Editar observación' className='h-4' />
-                                                    </button>
-                                                </td> :
-                                                
-                                                <td>
-                                                    <button onClick={() => { setOpen(true); setTipo("agregarObservacion"); setIdavance(avance._id) }}>
-                                                        <img src={plus} alt='' title='Agregar observación' className='h-5' />
-                                                    </button>
-                                                </td>
-                                                )
+                                                    userData.rol === 'LIDER' &&
+                                                    (avance.observaciones[0] !== "" ?
+                                                        <td>
+                                                            <button onClick={() => { setOpen(true); setTipo("editarObservacion"); setIdavance(avance._id) }}>
+                                                                <img src={edit} alt='' title='Editar observación' className='h-4' />
+                                                            </button>
+                                                        </td> :
+
+                                                        <td>
+                                                            <button onClick={() => { setOpen(true); setTipo("agregarObservacion"); setIdavance(avance._id) }}>
+                                                                <img src={plus} alt='' title='Agregar observación' className='h-5' />
+                                                            </button>
+                                                        </td>
+                                                    )
                                                 }
                                             </tr>
                                         )
@@ -227,56 +223,56 @@ const Detalle = () => {
                             </Table>
                             <hr style={{ border: '15px', display: 'flex' }} />
                             <Descripcion open={open} setOpen={setOpen} />
-                            <button className='mr-2 bg-green-700 rounded px-2 py-1 text-white font-semibold hover:bg-green-600' onClick={() => { setOpen(true); setTipo("nuevoAvance")}}>Nuevo avance</button>
+                            <button className='mr-2 bg-green-700 rounded px-2 py-1 text-white font-semibold hover:bg-green-600' onClick={() => { setOpen(true); setTipo("nuevoAvance") }}>Nuevo avance</button>
                         </AccordionDetails>
                     </Accordion>
                     {
-                    userData.rol === 'LIDER' &&
-                    <Accordion>
-                        <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel2a-content"
-                            id="panel2a-header"
-                        >
-                            <Typography>Inscripciones</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <hr style={{ border: '15px', display: 'flex' }} />
-                            <Table hover borderless className='my-1 table-auto'>
-                                <thead>
-                                    <tr>
-                                        <th width='30%'>Fecha ingreso</th>
-                                        <th width='25%'>Estudiante</th>
-                                        <th width='20%'>Estado</th>
-                                        <th width='5%'></th>
-                                        <th width='8%'></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {inscripciones.map((inscripcion) => {
-                                        return(
-                                            <tr>
-                                                <td>{inscripcion.ingreso}</td>
-                                                <td>{inscripcion.estudiante.nombre} {inscripcion.estudiante.apellido}</td>
-                                                <td>{inscripcion.estado}</td>
-                                                <td>
-                                                    <button onClick={() => { aceptar(inscripcion) }}>
-                                                        <img src={check} alt='' title='Aprobar' className='h-5' />
-                                                    </button>
-                                                </td>
-                                                <td>
-                                                    <button onClick={() => { rechazar(inscripcion) }}>
-                                                        <img src={denied} alt='' title='No aprobar' className='h-4' />
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        )
-                                    })}
-                                </tbody>
-                            </Table>
-                            <hr style={{ border: '15px', display: 'flex' }} />
-                        </AccordionDetails>
-                    </Accordion>
+                        userData.rol === 'LIDER' &&
+                        <Accordion>
+                            <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel2a-content"
+                                id="panel2a-header"
+                            >
+                                <Typography>Inscripciones</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <hr style={{ border: '15px', display: 'flex' }} />
+                                <Table hover borderless className='my-1 table-auto'>
+                                    <thead>
+                                        <tr>
+                                            <th width='30%'>Fecha ingreso</th>
+                                            <th width='25%'>Estudiante</th>
+                                            <th width='20%'>Estado</th>
+                                            <th width='5%'></th>
+                                            <th width='8%'></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {inscripciones.map((inscripcion) => {
+                                            return (
+                                                <tr>
+                                                    <td>{inscripcion.ingreso.slice(0, 10)}</td>
+                                                    <td>{inscripcion.estudiante.nombre} {inscripcion.estudiante.apellido}</td>
+                                                    <td>{inscripcion.estado}</td>
+                                                    <td>
+                                                        <button onClick={() => { aceptar(inscripcion) }}>
+                                                            <img src={check} alt='' title='Aprobar' className='h-5' />
+                                                        </button>
+                                                    </td>
+                                                    <td>
+                                                        <button onClick={() => { rechazar(inscripcion) }}>
+                                                            <img src={denied} alt='' title='No aprobar' className='h-4' />
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })}
+                                    </tbody>
+                                </Table>
+                                <hr style={{ border: '15px', display: 'flex' }} />
+                            </AccordionDetails>
+                        </Accordion>
                     }
                     <Descripcion open={open} setOpen={setOpen} proyecto={proyectos} tipo={tipo} idobjetivo={idobjetivo} idavance={idavance} />
                 </div>
@@ -302,11 +298,11 @@ const Descripcion = (props) => {
     const sleep = (milliseconds) => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
-    
+
     const modificar = () => {
         console.log(props.tipo)
-        if(props.tipo === "nombre"){
-            if (nombre === ""){
+        if (props.tipo === "nombre") {
+            if (nombre === "") {
                 setNombre(props.proyecto.nombre)
             }
             editarProyecto({
@@ -315,8 +311,8 @@ const Descripcion = (props) => {
                     nombre: nombre
                 }
             })
-        } else if (props.tipo === "presupuesto"){
-            if (presupuesto === 0){
+        } else if (props.tipo === "presupuesto") {
+            if (presupuesto === 0) {
                 setPresupuesto(props.proyecto.presupuesto)
             }
             editarProyecto({
@@ -325,28 +321,28 @@ const Descripcion = (props) => {
                     presupuesto: parseFloat(presupuesto)
                 }
             })
-        } else if (props.tipo === "objetivo"){
+        } else if (props.tipo === "objetivo") {
             var filtro = props.proyecto.objetivos.filter(objetivo => objetivo._id === props.idobjetivo)
-            
+
             var objmodificado = [{
                 tipo: filtro[0].tipo,
                 descripcion: descripcion
             }]
-            
+
             var nofiltro = props.proyecto.objetivos.filter(objetivo => objetivo._id !== props.idobjetivo)
-            
+
             var miNuevo = []
-            for (var i = 0; i < nofiltro.length; i++){
-                miNuevo[i] = {"tipo": nofiltro[i].tipo, "descripcion": nofiltro[i].descripcion}
+            for (var i = 0; i < nofiltro.length; i++) {
+                miNuevo[i] = { "tipo": nofiltro[i].tipo, "descripcion": nofiltro[i].descripcion }
             }
 
-            if(filtro[0].tipo === "GENERAL"){
+            if (filtro[0].tipo === "GENERAL") {
                 objmodificado = objmodificado.concat(miNuevo)
             } else {
                 objmodificado = miNuevo.concat(objmodificado)
             }
-            
-            
+
+
             editarProyecto({
                 variables: {
                     id: props.proyecto._id,
@@ -354,12 +350,12 @@ const Descripcion = (props) => {
                 }
             })
 
-        } else if (props.tipo === "avance"){
+        } else if (props.tipo === "avance") {
             var filtroava = props.proyecto.avances.filter(avance => avance._id === props.idavance)
             var avamodificado = [{
                 _id: filtroava[0]._id,
                 descripcion: avance
-            }]            
+            }]
             editarAvance({
                 variables: {
                     id: avamodificado[0]._id,
@@ -367,7 +363,7 @@ const Descripcion = (props) => {
                 }
             })
 
-        } else if (props.tipo === "nuevoAvance"){
+        } else if (props.tipo === "nuevoAvance") {
             crearAvance({
                 variables: {
                     fecha: Date.now(),
@@ -379,16 +375,16 @@ const Descripcion = (props) => {
             })
             sleep(3000).then(r => {
                 window.location.reload()
-              })
+            })
 
-        } else if (props.tipo === "agregarObservacion"){
+        } else if (props.tipo === "agregarObservacion") {
             crearObservacion({
                 variables: {
                     id: props.idavance,
                     observaciones: nuevaObservacion
                 }
             })
-        } else if (props.tipo === "editarObservacion"){
+        } else if (props.tipo === "editarObservacion") {
             crearObservacion({
                 variables: {
                     id: props.idavance,
@@ -405,19 +401,19 @@ const Descripcion = (props) => {
         props.tipo === "nombre" ?
             setNombre(e)
             : props.tipo === "presupuesto" ? setPresupuesto(e)
-            : props.tipo === "objetivo" ? setDescripcion(e)
-            : props.tipo === "avance" ? setAvance(e)
-            : props.tipo === "nuevoAvance" ? setNuevoAvance(e)
-            : setNuevaObservacion(e)
-    } 
+                : props.tipo === "objetivo" ? setDescripcion(e)
+                    : props.tipo === "avance" ? setAvance(e)
+                        : props.tipo === "nuevoAvance" ? setNuevoAvance(e)
+                            : setNuevaObservacion(e)
+    }
 
     return (
         <Dialog open={props.open}>
             <div className='flex flex-col m-4'>
                 <h5 className='mt-3 text-center'>{props.tipo === "nuevoAvance" ? <>Nuevo avance</> : props.tipo === "agregarObservacion" ? <>Agregar observación</> : <>Editar campo</>}</h5>
-                <input className='form-control' onChange={(e) => {miFuncion(e.target.value)}}/>
+                <input className='form-control' onChange={(e) => { miFuncion(e.target.value) }} />
                 <div className='flex flex-row justify-end mt-2'>
-                    <button className='mr-2 bg-green-700 rounded px-2 py-1 text-white font-semibold' onClick={() => {modificar(props.proyecto)}}>Aceptar</button>
+                    <button className='mr-2 bg-green-700 rounded px-2 py-1 text-white font-semibold' onClick={() => { modificar(props.proyecto) }}>Aceptar</button>
                     <button className='mr-1 bg-green-700 rounded px-2 py-1 text-white font-semibold' onClick={() => { props.setOpen(false) }}>Cerrar</button>
                 </div>
             </div>
