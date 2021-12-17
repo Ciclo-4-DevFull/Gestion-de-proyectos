@@ -5,13 +5,15 @@ query Proyectos(
     $id: ID, 
     $nombre: String, 
     $estado: Enum_EstadoProyecto, 
-    $fase: Enum_Fase
+    $fase: Enum_Fase,
+    $lider: String
 ) {
   Proyectos(
     _id: $id, 
     nombre: $nombre, 
     estado: $estado, 
-    fase: $fase
+    fase: $fase,
+    lider: $lider
     ) {
     _id
     nombre
